@@ -1,0 +1,31 @@
+{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 4,
+    "minor": 3,
+    "patch": 4
+  },
+    "include": [
+        "build/CMakePresets.json"
+    ],
+  "configurePresets": [
+    {
+      "name": "release",
+      "displayName": "Conan Release Base",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "inherits": "conan-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/Release/generators/conan_toolchain.cmake",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-release",
+      "configurePreset": "release"
+    }
+  ]
+}
