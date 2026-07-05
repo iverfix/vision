@@ -10,6 +10,9 @@ class ConanConfig(ConanFile):
         self.requires("eigen/5.0.1", force=True)
         self.requires("opencv/4.13.0")
 
+    def layout(self):
+        self.folders.generators = "build"
+
     def configure(self):
         self.options["opencv"].with_cuda = False
         self.options["opencv"].with_qt = False
