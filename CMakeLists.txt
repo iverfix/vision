@@ -8,6 +8,9 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/datastreamer)
 
 add_executable(Vision)
 target_compile_features(Vision PRIVATE cxx_std_26)
+target_compile_definitions(Vision PRIVATE 
+    PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 target_sources(Vision PUBLIC src/main.cpp)
 
