@@ -54,7 +54,7 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
   std::vector<cv::Point2f> src_pts, dst_pts;
   for (const auto &match : matches) {
     src_pts.push_back(kp1[match.queryIdx].pt);
-    dst_pts.push_back(kp1[match.trainIdx].pt);
+    dst_pts.push_back(kp2[match.trainIdx].pt);
   }
 
   cv::Mat H = cv::findHomography(src_pts, dst_pts, cv::RANSAC, 5.0);
@@ -80,7 +80,7 @@ void FeatureMatcher::getPoseDelta2(const cv::Mat &firstImage, const cv::Mat &sec
   std::vector<cv::Point2f> src_pts, dst_pts;
   for (const auto &match : matches) {
     src_pts.push_back(kp1[match.queryIdx].pt);
-    dst_pts.push_back(kp1[match.trainIdx].pt);
+    dst_pts.push_back(kp2[match.trainIdx].pt);
   }
 
   cv::Mat H = cv::findHomography(src_pts, dst_pts, cv::RANSAC, 5.0);
