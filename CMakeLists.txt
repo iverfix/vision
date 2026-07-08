@@ -5,6 +5,7 @@ find_package(OpenCV)
 find_package(Eigen3)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/datastreamer)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/featureMatcher)
 
 add_executable(Vision)
 target_compile_features(Vision PRIVATE cxx_std_26)
@@ -14,6 +15,6 @@ target_compile_definitions(Vision PRIVATE
 
 target_sources(Vision PUBLIC src/main.cpp)
 
-target_link_libraries(Vision PRIVATE opencv::opencv Eigen3::Eigen DataStreamer)
+target_link_libraries(Vision PRIVATE opencv::opencv Eigen3::Eigen DataStreamer FeatureMatcher)
 
 
