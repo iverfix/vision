@@ -1,4 +1,6 @@
+#include "Camera.h"
 #include "DataStreamer.h"
+#include "featureMatcher.h"
 #include <opencv2/opencv.hpp>
 
 constexpr int imageCaptureFrequency = 10;
@@ -11,14 +13,22 @@ int main()
   std::filesystem::path datasetPath = projectRoot / "dataset" / "image_data" / "image_00";
 
   DataStreamer streamer{ datasetPath };
+  FeatureMatcher matcher{};
+  Camera camera{ 0, projectRoot / "dataset" };
 
-  auto data = streamer.fetchNext();
 
-  while (data.has_value()) {
+  auto previousImage = streamer.fetchNext();
 
-    cv::imshow("Our image", data->image);
+  while (previousImage.has_value()) {
+
+    auto currentImage = streamer.fetchNext();
+    auto processedImage = matcher.matchImages(previousImage->image, currentImage->image);
+
+    matcher.getPoseDelta(previousImage->image, currentImage->image);
+    // auto processedImage = matcher.processImage(data->image);
+    cv::imshow("Our image", processedImage);
     cv::waitKey(fps);
-    data = streamer.fetchNext();
+    previousImage = currentImage;
   }
   cv::destroyWindow("Our image");
   return 0;

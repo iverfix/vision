@@ -12,6 +12,6 @@ target_sources(
 
 target_link_libraries(
     FeatureMatcher
-    PRIVATE
+    PUBLIC
     opencv::opencv
 )
