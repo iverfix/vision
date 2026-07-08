@@ -24,7 +24,7 @@ int main()
     auto currentImage = streamer.fetchNext();
     auto processedImage = matcher.matchImages(previousImage->image, currentImage->image);
 
-    matcher.getPoseDelta(previousImage->image, currentImage->image);
+    matcher.getPoseDelta2(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);
     cv::imshow("Our image", processedImage);
     cv::waitKey(fps);

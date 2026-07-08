@@ -14,4 +14,5 @@ target_link_libraries(
     FeatureMatcher
     PUBLIC
     opencv::opencv
+    Camera
 )
