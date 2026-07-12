@@ -1,12 +1,11 @@
 #include "featureMatcher.h"
+#include <Eigen/Core>
 #include <Eigen/Dense>
 #include <opencv2/core/eigen.hpp>
 #include <print>
 #include <vector>
 
 constexpr float KNN_MATCH_RATIO = 0.8;
-
-FeatureMatcher::FeatureMatcher() { orbDetector = cv::AKAZE::create(); }
 
 void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera)
 {
@@ -15,8 +14,8 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
   cv::Mat desc1;
   cv::Mat desc2;
 
-  orbDetector->detectAndCompute(firstImage, cv::Mat(), kp1, desc1);
-  orbDetector->detectAndCompute(secondImage, cv::Mat(), kp2, desc2);
+  detector->detectAndCompute(firstImage, cv::Mat(), kp1, desc1);
+  detector->detectAndCompute(secondImage, cv::Mat(), kp2, desc2);
 
   cv::BFMatcher matcher(cv::NORM_HAMMING);
   std::vector<std::vector<cv::DMatch>> matches;
@@ -49,12 +48,11 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
 
   cv::cv2eigen(rotation, rotation_matrix);
 
-  Eigen::Vector3d euler = rotation_matrix.canonicalEulerAngles(2, 1, 0);
+  rotationState = rotation_matrix * rotationState;
+  Eigen::Vector3d accumulatedEuler = rotationState.canonicalEulerAngles(2, 1, 0);
+  Eigen::Vector3d deltaEuler = rotation_matrix.canonicalEulerAngles(2, 1, 0);
 
-  accum1 += euler[0];
-  accum2 += euler[1];
-  accum3 += euler[2];
-
-  std::println("Eulerian deltas: ({}, {}, {})", euler[0], euler[1], euler[2]);
-  std::println("Eulerian accum: ({}, {}, {})", accum1, accum2, accum3);
+  std::println("Eulerian delta: ({})", deltaEuler);
+  std::println("Eulerian accum: ({})", accumulatedEuler);
+  std::println();
 }
