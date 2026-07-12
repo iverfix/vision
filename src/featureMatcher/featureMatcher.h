@@ -12,7 +12,11 @@ public:
   cv::Mat matchImages(const cv::Mat &firstImage, const cv::Mat &secondImage);
   void getPoseDelta(const cv::Mat &firstImage, const cv::Mat &secondImage);
   void getPoseDelta2(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera);
+  void getPoseDelta3(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera);
 
 private:
-  cv::Ptr<cv::ORB> orbDetector;
+  cv::Ptr<cv::AKAZE> orbDetector;
+  double accum1{};
+  double accum2{};
+  double accum3{};
 };

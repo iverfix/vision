@@ -6,7 +6,7 @@
 #include <vector>
 
 
-FeatureMatcher::FeatureMatcher() { orbDetector = cv::ORB::create(); }
+FeatureMatcher::FeatureMatcher() { orbDetector = cv::AKAZE::create(); }
 
 cv::Mat FeatureMatcher::processImage(const cv::Mat &image)
 {
@@ -113,14 +113,58 @@ void FeatureMatcher::getPoseDelta2(const cv::Mat &firstImage, const cv::Mat &sec
     }
   }
 
-  std::cout << "Rotation: " << correct_R << '\n';
-  std::cout << "Translation: " << correct_T << '\n';
-
   Eigen::Matrix3d mat;
 
   cv::cv2eigen(correct_R, mat);
 
   Eigen::Vector3d euler = mat.canonicalEulerAngles(2, 1, 0);
 
+  accum1 += euler[0];
+  accum2 += euler[1];
+  accum3 += euler[2];
+
   std::println("Eulerian deltas: ({}, {}, {})", euler[0], euler[1], euler[2]);
+  std::println("Eulerian accum: ({}, {}, {})", accum1, accum2, accum3);
+}
+
+
+void FeatureMatcher::getPoseDelta3(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera)
+{
+  std::vector<cv::KeyPoint> kp1, kp2;
+  cv::Mat desc1, desc2;
+
+  orbDetector->detectAndCompute(firstImage, cv::Mat(), kp1, desc1);
+  orbDetector->detectAndCompute(secondImage, cv::Mat(), kp2, desc2);
+
+  cv::BFMatcher bf(cv::NORM_HAMMING, true);
+  std::vector<cv::DMatch> matches;
+  bf.match(desc1, desc2, matches);
+
+  std::vector<cv::Point2f> src_pts, dst_pts;
+  for (const auto &match : matches) {
+    src_pts.push_back(kp1[match.queryIdx].pt);
+    dst_pts.push_back(kp2[match.trainIdx].pt);
+  }
+
+  cv::Mat K_cv, mask;
+
+  cv::eigen2cv(camera.getCameraMatrix(), K_cv);
+
+  cv::Mat EssentialMatrix = cv::findEssentialMat(src_pts, dst_pts, K_cv, cv::RANSAC, 0.999, 1.0, 1000, mask);
+
+  cv::Mat R, t;
+  cv::recoverPose(EssentialMatrix, src_pts, dst_pts, K_cv, R, t, mask);
+
+  Eigen::Matrix3d mat;
+
+  cv::cv2eigen(R, mat);
+
+  Eigen::Vector3d euler = mat.canonicalEulerAngles(2, 1, 0);
+
+  accum1 += euler[0];
+  accum2 += euler[1];
+  accum3 += euler[2];
+
+  std::println("Eulerian deltas: ({}, {}, {})", euler[0], euler[1], euler[2]);
+  std::println("Eulerian accum: ({}, {}, {})", accum1, accum2, accum3);
 }

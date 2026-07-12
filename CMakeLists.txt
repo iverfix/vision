@@ -10,12 +10,14 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/camera)
 
 add_executable(Vision)
 target_compile_features(Vision PRIVATE cxx_std_26)
-target_compile_definitions(Vision PRIVATE 
-    PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+target_compile_definitions(
+    Vision
+    PRIVATE PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 target_sources(Vision PUBLIC src/main.cpp)
 
-target_link_libraries(Vision PRIVATE opencv::opencv Eigen3::Eigen DataStreamer FeatureMatcher Camera)
-
-
+target_link_libraries(
+    Vision
+    PRIVATE opencv::opencv Eigen3::Eigen DataStreamer FeatureMatcher Camera
+)

@@ -1,12 +1,9 @@
 add_library(DataStreamer)
 
-target_sources(DataStreamer
-    PUBLIC
-    FILE_SET HEADERS
-    FILES
-    DataStreamer.h
-    PRIVATE
-    DataStreamer.cpp
+target_sources(
+    DataStreamer
+    PUBLIC FILE_SET HEADERS FILES DataStreamer.h
+    PRIVATE DataStreamer.cpp
 )
 
 target_compile_features(DataStreamer PRIVATE cxx_std_26)
