@@ -22,11 +22,10 @@ int main()
   while (previousImage.has_value()) {
 
     auto currentImage = streamer.fetchNext();
-    auto processedImage = matcher.matchImages(previousImage->image, currentImage->image);
 
-    matcher.getPoseDelta3(previousImage->image, currentImage->image, camera);
+    matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);
-    cv::imshow("Our image", processedImage);
+    cv::imshow("Our image", previousImage->image);
     cv::waitKey(fps);
     previousImage = currentImage;
   }
