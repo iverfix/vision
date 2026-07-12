@@ -2,6 +2,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <opencv2/core/eigen.hpp>
+#include <opencv2/core/mat.hpp>
 #include <print>
 #include <vector>
 
@@ -14,8 +15,8 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
   cv::Mat desc1;
   cv::Mat desc2;
 
-  detector->detectAndCompute(firstImage, cv::Mat(), kp1, desc1);
-  detector->detectAndCompute(secondImage, cv::Mat(), kp2, desc2);
+  detector->detectAndCompute(firstImage, cv::noArray(), kp1, desc1);
+  detector->detectAndCompute(secondImage, cv::noArray(), kp2, desc2);
 
   cv::BFMatcher matcher(cv::NORM_HAMMING);
   std::vector<std::vector<cv::DMatch>> matches;
@@ -48,9 +49,11 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
 
   cv::cv2eigen(rotation, rotation_matrix);
 
-  rotationState = rotation_matrix * rotationState;
-  Eigen::Vector3d accumulatedEuler = rotationState.canonicalEulerAngles(2, 1, 0);
+  rotationState = Eigen::Quaterniond(rotation_matrix) * rotationState;
+  Eigen::Vector3d accumulatedEuler = rotationState.toRotationMatrix().canonicalEulerAngles(2, 1, 0);
   Eigen::Vector3d deltaEuler = rotation_matrix.canonicalEulerAngles(2, 1, 0);
+
+  rotationState.normalize();
 
   std::println("Eulerian delta: ({})", deltaEuler);
   std::println("Eulerian accum: ({})", accumulatedEuler);

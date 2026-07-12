@@ -1,6 +1,7 @@
 #pragma once
 #include "Camera.h"
 #include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <opencv2/features2d.hpp>
 #include <opencv2/opencv.hpp>
 
@@ -13,5 +14,5 @@ public:
 
 private:
   cv::Ptr<cv::AKAZE> detector{ cv::AKAZE::create() };
-  Eigen::Matrix3d rotationState{ Eigen::Matrix3d::Identity() };
+  Eigen::Quaterniond rotationState{ Eigen::Quaterniond::Identity() };
 };
