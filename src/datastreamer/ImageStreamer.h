@@ -1,29 +1,15 @@
-#include <chrono>
+#pragma once
+#include <DataTypes.h>
 #include <filesystem>
 #include <opencv2/opencv.hpp>
 #include <optional>
 #include <vector>
 
-using TimestampType = std::chrono::sys_time<std::chrono::nanoseconds>;
-
-struct ImageData
-{
-  cv::Mat image;
-  TimestampType time;
-};
-
-
-struct ImageMetaData
-{
-  std::filesystem::path path;
-  TimestampType timestamp;
-};
-
-class DataStreamer
+class ImageStreamer
 {
 
 public:
-  explicit DataStreamer(std::filesystem::path path);
+  explicit ImageStreamer(std::filesystem::path path);
   std::optional<ImageData> fetchNext();
 
 private:

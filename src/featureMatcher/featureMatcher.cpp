@@ -50,8 +50,8 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
   cv::cv2eigen(rotation, rotation_matrix);
 
   rotationState = Eigen::Quaterniond(rotation_matrix) * rotationState;
-  Eigen::Vector3d accumulatedEuler = rotationState.toRotationMatrix().canonicalEulerAngles(2, 1, 0);
-  Eigen::Vector3d deltaEuler = rotation_matrix.canonicalEulerAngles(2, 1, 0);
+  Eigen::Vector3d accumulatedEuler = rotationState.toRotationMatrix().canonicalEulerAngles(2, 0, 1);
+  Eigen::Vector3d deltaEuler = rotation_matrix.canonicalEulerAngles(2, 0, 1);
 
   rotationState.normalize();
 

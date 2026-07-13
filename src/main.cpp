@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "DataStreamer.h"
+#include "ImageStreamer.h"
 #include "featureMatcher.h"
 #include <opencv2/opencv.hpp>
 
@@ -12,7 +12,7 @@ int main()
   std::filesystem::path projectRoot = PROJECT_ROOT_DIR;
   std::filesystem::path datasetPath = projectRoot / "dataset" / "image_data" / "image_00";
 
-  DataStreamer streamer{ datasetPath };
+  ImageStreamer streamer{ datasetPath };
   FeatureMatcher matcher{};
   Camera camera{ 0, projectRoot / "dataset" };
 
