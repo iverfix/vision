@@ -5,28 +5,17 @@
 #include <optional>
 #include <vector>
 
-ImageStreamer::ImageStreamer(std::filesystem::path path) : dataset_path(std::move(path)) { fetchDataset(); }
-
-
-void ImageStreamer::fetchDataset()
-{
-  const std::vector<std::filesystem::path> files = fetchDatasetFiles(dataset_path);
-  const std::vector<TimestampType> timestamps = fetchTimestamps(dataset_path);
-
-  for (auto &&[time, file] : std::views::zip(timestamps, files)) {
-    imageFiles.push_back({ .path = file, .timestamp = time });
-  }
-
-  maxImageIndex = imageFiles.size();
-}
+ImageStreamer::ImageStreamer(std::filesystem::path path)
+  : datasetRootDirectory(std::move(path)), imageFiles(fetchDataPages(datasetRootDirectory))
+{}
 
 std::optional<ImageData> ImageStreamer::fetchNext()
 {
 
-  if (nextImageIndex >= maxImageIndex) { return std::nullopt; }
+  if (nextImageIndex >= imageFiles.size()) { return std::nullopt; }
 
   const auto currentImageMetadata = imageFiles[nextImageIndex];
-  const auto imageData = cv::imread(dataset_path / "data" / currentImageMetadata.path, cv::IMREAD_GRAYSCALE);
+  const auto imageData = cv::imread(datasetRootDirectory / "data" / currentImageMetadata.path, cv::IMREAD_GRAYSCALE);
 
   ++nextImageIndex;
   return ImageData{ .image = imageData, .time = currentImageMetadata.timestamp };

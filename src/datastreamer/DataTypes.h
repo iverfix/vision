@@ -12,7 +12,7 @@ struct ImageData
 };
 
 
-struct ImageMetaData
+struct DataPage
 {
   std::filesystem::path path;
   TimestampType timestamp;

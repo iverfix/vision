@@ -13,9 +13,7 @@ public:
   std::optional<ImageData> fetchNext();
 
 private:
-  void fetchDataset();
-  std::filesystem::path dataset_path{};
+  std::filesystem::path datasetRootDirectory;
+  std::vector<DataPage> imageFiles;
   size_t nextImageIndex{};
-  size_t maxImageIndex{};
-  std::vector<ImageMetaData> imageFiles;
 };

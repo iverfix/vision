@@ -1,7 +1,8 @@
-#include <DataTypes.h>
+#include "DataTypes.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <ranges>
 #include <vector>
 
 std::vector<std::filesystem::path> fetchDatasetFiles(const std::filesystem::path &datasetRootDirectory)
@@ -31,4 +32,18 @@ std::vector<TimestampType> fetchTimestamps(const std::filesystem::path &datasetR
   }
 
   return timestamps;
+}
+
+std::vector<DataPage> fetchDataPages(const std::filesystem::path &datasetRootDirectory)
+{
+
+  std::vector<DataPage> dataPages{};
+  const std::vector<std::filesystem::path> files = fetchDatasetFiles(datasetRootDirectory);
+  const std::vector<TimestampType> timestamps = fetchTimestamps(datasetRootDirectory);
+
+  for (auto &&[time, file] : std::views::zip(timestamps, files)) {
+    dataPages.push_back({ .path = file, .timestamp = time });
+  }
+
+  return dataPages;
 }
