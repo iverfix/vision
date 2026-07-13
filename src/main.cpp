@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "ImageStreamer.h"
+#include "OxtsStreamer.h"
 #include "featureMatcher.h"
 #include <opencv2/opencv.hpp>
 
@@ -15,6 +16,7 @@ int main()
   ImageStreamer streamer{ datasetPath };
   FeatureMatcher matcher{};
   Camera camera{ 0, projectRoot / "dataset" };
+  OxtsStreamer oxtsStreamer{ datasetPath };
 
 
   auto previousImage = streamer.fetchNext();
@@ -22,6 +24,8 @@ int main()
   while (previousImage.has_value()) {
 
     auto currentImage = streamer.fetchNext();
+
+    oxtsStreamer.fetchNextMeasurement();
 
     matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);
