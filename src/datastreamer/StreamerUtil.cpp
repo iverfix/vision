@@ -41,9 +41,7 @@ std::vector<DataPage> fetchDataPages(const std::filesystem::path &datasetRootDir
   const std::vector<std::filesystem::path> files = fetchDatasetFiles(datasetRootDirectory);
   const std::vector<TimestampType> timestamps = fetchTimestamps(datasetRootDirectory);
 
-  for (auto &&[time, file] : std::views::zip(timestamps, files)) {
-    dataPages.push_back({ .path = file, .timestamp = time });
-  }
+  for (auto &&[time, file] : std::views::zip(timestamps, files)) { dataPages.push_back({ .path = file, .timestamp = time }); }
 
   return dataPages;
 }

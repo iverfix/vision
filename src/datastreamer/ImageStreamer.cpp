@@ -5,9 +5,7 @@
 #include <optional>
 #include <vector>
 
-ImageStreamer::ImageStreamer(std::filesystem::path path)
-  : datasetRootDirectory(std::move(path)), imageFiles(fetchDataPages(datasetRootDirectory))
-{}
+ImageStreamer::ImageStreamer(std::filesystem::path path) : datasetRootDirectory(std::move(path)), imageFiles(fetchDataPages(datasetRootDirectory)) {}
 
 std::optional<ImageData> ImageStreamer::fetchNext()
 {

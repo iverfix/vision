@@ -2,6 +2,4 @@
 #include "StreamerUtil.h"
 
 
-OxtsStreamer::OxtsStreamer(std::filesystem::path path)
-  : datasetRootDirectory(std::move(path)), files(fetchDataPages(datasetRootDirectory))
-{}
+OxtsStreamer::OxtsStreamer(std::filesystem::path path) : datasetRootDirectory(std::move(path)), files(fetchDataPages(datasetRootDirectory)) {}

@@ -11,8 +11,7 @@ static constexpr int translationVectorSize = 3;
 
 namespace {
 
-template<typename EigenType>
-EigenType parseEigen(std::stringstream &stream, int numParameters, const std::string &error_message)
+template<typename EigenType> EigenType parseEigen(std::stringstream &stream, int numParameters, const std::string &error_message)
 {
   std::vector<double> output{};
   double element{};
@@ -40,12 +39,10 @@ void Camera::parseCalibrationFile(const std::filesystem::path &path)
       aspect_ratio = parseEigen<Eigen::Vector2d>(stream, aspectRatioVectorSize, "Invalid aspect ratio");
 
     } else if (field.starts_with(std::format("K_0{}", camera_id))) {
-      cameraMatrix =
-        parseEigen<Eigen::Matrix<double, 3, 3, Eigen::RowMajor>>(stream, cameraMatrixSize, "Invalid camera matrix");
+      cameraMatrix = parseEigen<Eigen::Matrix<double, 3, 3, Eigen::RowMajor>>(stream, cameraMatrixSize, "Invalid camera matrix");
 
     } else if (field.starts_with(std::format("D_0{}", camera_id))) {
-      distorition_parameters = parseEigen<Eigen::Vector<double, nDistParams>>(
-        stream, distortionParametersListSize, "Invalid distortion parameters list");
+      distorition_parameters = parseEigen<Eigen::Vector<double, nDistParams>>(stream, distortionParametersListSize, "Invalid distortion parameters list");
 
     } else if (field.starts_with(std::format("R_0{}", camera_id))) {
       rotationMatrix = parseEigen<Eigen::Matrix3d>(stream, rotationMatrixSize, "Invalid rotation matrix");
