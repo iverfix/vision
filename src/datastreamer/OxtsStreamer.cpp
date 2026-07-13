@@ -44,15 +44,13 @@ OxtsStreamer::OxtsStreamer(std::filesystem::path path) : datasetRootDirectory(st
 std::optional<OxtsData> OxtsStreamer::fetchNextMeasurement()
 {
 
-  const std::optional<OxtsMeasurement> currentDocument = parseOxtsFile(datasetRootDirectory / "data" / files[nextImageIndex].path);
-  const auto currentTime = files[nextImageIndex].timestamp;
-  ++nextImageIndex;
+  if (nextImageIndex >= files.size()) { return std::nullopt; };
+  const auto &currentFile = files[nextImageIndex++];
+  const std::optional<OxtsMeasurement> currentDocument = parseOxtsFile(datasetRootDirectory / "data" / currentFile.path);
 
   if (currentDocument == std::nullopt) { return std::nullopt; };
-  if (nextImageIndex > files.size()) { return std::nullopt; };
 
-
-  return OxtsData{ .measurement = currentDocument.value(), .time = currentTime };
+  return OxtsData{ .measurement = currentDocument.value(), .time = currentFile.timestamp };
 }
 
 std::optional<OxtsMeasurement> OxtsStreamer::parseOxtsFile(const std::filesystem::path &path)

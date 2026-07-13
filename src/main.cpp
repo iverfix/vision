@@ -17,7 +17,7 @@ int main()
 
   ImageStreamer streamer{ datasetPath };
   FeatureMatcher matcher{};
-  Camera camera{ 0, projectRoot / "dataset" };
+  Camera camera{ 2, projectRoot / "dataset" };
   OxtsStreamer oxtsStreamer{ oxtsPath };
 
 
