@@ -16,6 +16,7 @@
       "binaryDir": "${sourceDir}/build",
       "inherits": "conan-release",
       "cacheVariables": {
+        "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/Release/generators/conan_toolchain.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"

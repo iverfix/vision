@@ -31,11 +31,12 @@ constexpr size_t AngularVelocityUP = 22;
 constexpr size_t PositionAccuracy = 23;
 constexpr size_t VelocityAccuracy = 24;
 constexpr size_t Navstate = 25;
-constexpr size_t PosMode = 26;
+constexpr size_t NumSats = 26;
+constexpr size_t PosMode = 27;
 constexpr size_t VelMode = 27;
-constexpr size_t OriMode = 28;
+constexpr size_t OriMode = 29;
 
-constexpr size_t NUM_MEASUREMENTS = 29;
+constexpr size_t NUM_MEASUREMENTS = 30;
 
 OxtsStreamer::OxtsStreamer(std::filesystem::path path) : datasetRootDirectory(std::move(path)), files(fetchDataPages(datasetRootDirectory)) {}
 
@@ -49,6 +50,7 @@ std::optional<OxtsData> OxtsStreamer::fetchNextMeasurement()
 
   if (currentDocument == std::nullopt) { return std::nullopt; };
   if (nextImageIndex > files.size()) { return std::nullopt; };
+
 
   return OxtsData{ .measurement = currentDocument.value(), .time = currentTime };
 }
@@ -80,9 +82,10 @@ std::optional<OxtsMeasurement> OxtsStreamer::parseOxtsFile(const std::filesystem
   AngularVelocity angularVelocityBodyFrame{ measurements[AngularVelocityForward], measurements[AngularVelocityLeft], measurements[AngularVelocityUP] };
   GPSAccuracy gpsAccuracy{ measurements[PositionAccuracy], measurements[VelocityAccuracy] };
   GPSMetadata gpsMetadata{ .navstat = static_cast<int>(measurements[Navstate]),
-    .numsats = static_cast<int>(measurements[PosMode]),
-    .posmode = static_cast<int>(measurements[VelMode]),
-    .velmode = static_cast<int>(measurements[OriMode]) };
+    .numsats = static_cast<int>(measurements[NumSats]),
+    .posmode = static_cast<int>(measurements[PosMode]),
+    .velmode = static_cast<int>(measurements[VelMode]),
+    .orimode = static_cast<int>(measurements[OriMode]) };
 
   return OxtsMeasurement{ .geodeticPostion = geoPosition,
     .orientation = orientation,

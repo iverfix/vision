@@ -3,6 +3,7 @@
 #include "OxtsStreamer.h"
 #include "featureMatcher.h"
 #include <opencv2/opencv.hpp>
+#include <print>
 
 constexpr int imageCaptureFrequency = 10;
 constexpr int fps = 1000 / imageCaptureFrequency;
@@ -12,11 +13,12 @@ int main()
 
   std::filesystem::path projectRoot = PROJECT_ROOT_DIR;
   std::filesystem::path datasetPath = projectRoot / "dataset" / "image_data" / "image_00";
+  std::filesystem::path oxtsPath = projectRoot / "dataset" / "image_data" / "oxts";
 
   ImageStreamer streamer{ datasetPath };
   FeatureMatcher matcher{};
   Camera camera{ 0, projectRoot / "dataset" };
-  OxtsStreamer oxtsStreamer{ datasetPath };
+  OxtsStreamer oxtsStreamer{ oxtsPath };
 
 
   auto previousImage = streamer.fetchNext();
@@ -25,7 +27,9 @@ int main()
 
     auto currentImage = streamer.fetchNext();
 
-    oxtsStreamer.fetchNextMeasurement();
+    const auto measurement = oxtsStreamer.fetchNextMeasurement();
+
+    std::println("Measurement {}", measurement.value().measurement.accelerationBody);
 
     matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);
