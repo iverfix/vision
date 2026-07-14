@@ -55,7 +55,7 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
 
   rotationState.normalize();
 
-  std::println("Eulerian delta: ({})", deltaEuler);
+  // std::println("Eulerian delta: ({})", deltaEuler);
   std::println("Eulerian accum: ({})", accumulatedEuler);
   std::println();
 }

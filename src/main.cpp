@@ -21,15 +21,17 @@ int main()
   OxtsStreamer oxtsStreamer{ oxtsPath };
 
 
-  auto previousImage = streamer.fetchNext();
+  std::optional<ImageData> previousImage = streamer.fetchNext();
 
   while (previousImage.has_value()) {
 
-    auto currentImage = streamer.fetchNext();
+    const auto currentImage = streamer.fetchNext();
+
+    if (currentImage == std::nullopt) { break; }
 
     const auto measurement = oxtsStreamer.fetchNextMeasurement();
 
-    std::println("Measurement {}", measurement.value().measurement.accelerationBody);
+    std::println("Ground Truth: {}", measurement.value().measurement.orientation);
 
     matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);
