@@ -86,13 +86,13 @@ std::optional<OxtsMeasurement> OxtsStreamer::parseOxtsFile(const std::filesystem
     .orimode = static_cast<int>(measurements[OriMode]) };
 
   return OxtsMeasurement{ .geodeticPostion = geoPosition,
-    .orientation = orientation,
+    .orientation = convertFromUSToEUOrientation(orientation),
     .velocityNorthEast = northEastVelocity,
-    .velocityBody = linearVelocity,
-    .accelerationIMU = linearAccelerationIMUFrame,
-    .accelerationBody = linearAccelerationBodyFrame,
-    .angularVelocityIMU = angularVelocityIMUFrame,
-    .angularVelocityBody = angularVelocityBodyFrame,
+    .velocityBody = convertFromUSToEUOrientation(linearVelocity),
+    .accelerationIMU = convertFromUSToEUOrientation(linearAccelerationIMUFrame),
+    .accelerationBody = convertFromUSToEUOrientation(linearAccelerationBodyFrame),
+    .angularVelocityIMU = convertFromUSToEUOrientation(angularVelocityIMUFrame),
+    .angularVelocityBody = convertFromUSToEUOrientation(angularVelocityBodyFrame),
     .gpsAccuracy = gpsAccuracy,
     .gpsMetadata = gpsMetadata };
 }

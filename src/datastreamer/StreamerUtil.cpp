@@ -11,7 +11,9 @@ std::vector<std::filesystem::path> fetchDatasetFiles(const std::filesystem::path
   const auto datasetPath = datasetRootDirectory / "data";
   if (!(std::filesystem::exists(datasetPath) && std::filesystem::is_directory(datasetPath))) { return files; }
 
-  for (const auto &entry : std::filesystem::directory_iterator(datasetPath)) { files.push_back(entry.path()); }
+  for (const auto &entry : std::filesystem::directory_iterator(datasetPath)) {
+    files.push_back(entry.path());
+  }
 
   std::ranges::sort(files);
 
@@ -41,7 +43,9 @@ std::vector<DataPage> fetchDataPages(const std::filesystem::path &datasetRootDir
   const std::vector<std::filesystem::path> files = fetchDatasetFiles(datasetRootDirectory);
   const std::vector<TimestampType> timestamps = fetchTimestamps(datasetRootDirectory);
 
-  for (auto &&[time, file] : std::views::zip(timestamps, files)) { dataPages.push_back({ .path = file, .timestamp = time }); }
+  for (auto &&[time, file] : std::views::zip(timestamps, files)) {
+    dataPages.push_back({ .path = file, .timestamp = time });
+  }
 
   return dataPages;
 }
