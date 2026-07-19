@@ -3,9 +3,9 @@
 #include <chrono>
 
 
-KalmanFilter::KalmanFilter(StateVector priorState, StateMatrix priorCovariance)
+KalmanFilter::KalmanFilter(StateVector priorState, StateMatrix priorCovariance, std::chrono::steady_clock::time_point startTime)
   : priorState(std::move(priorState)), priorCovariance(std::move(priorCovariance)), posterioriState(StateVector::Zero()),
-    posterioriCovariance(StateMatrix::Zero())
+    posterioriCovariance(StateMatrix::Zero()), lastUpdate(startTime)
 {}
 
 void KalmanFilter::predict()

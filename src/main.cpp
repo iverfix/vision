@@ -1,7 +1,9 @@
 #include "Camera.h"
 #include "ImageStreamer.h"
+#include "KalmanFilter.h"
 #include "OxtsStreamer.h"
 #include "featureMatcher.h"
+#include <Eigen/Core>
 #include <opencv2/opencv.hpp>
 #include <print>
 
@@ -20,8 +22,20 @@ int main()
   Camera camera{ 2, projectRoot / "dataset" };
   OxtsStreamer oxtsStreamer{ oxtsPath };
 
-
   std::optional<ImageData> previousImage = streamer.fetchNext();
+  std::optional<OxtsData> measurement = oxtsStreamer.fetchNextMeasurement();
+
+  StateVector priorState;
+  priorState << Eigen::Vector3d::Zero(), measurement->measurement.velocityBody;
+
+
+  StateMatrix priorCovariance = StateMatrix::Identity();
+  const auto time = measurement->time;
+  std::println("Start time {}", time);
+  KalmanFilter filter{ priorState, priorCovariance, measurement->time };
+  MeasurementMatrix measurementMatrix = MeasurementMatrix::Zero();
+  measurementMatrix.block<3, 3>(0, 3) = Eigen::Matrix3d::Identity();
+
 
   while (previousImage.has_value()) {
 
@@ -29,9 +43,15 @@ int main()
 
     if (currentImage == std::nullopt) { break; }
 
-    const auto measurement = oxtsStreamer.fetchNextMeasurement();
+    measurement = oxtsStreamer.fetchNextMeasurement();
+
+    const Eigen::Matrix3d measurementNoise = Eigen::Vector3d{ 0.1, 0.1, 0.1 }.asDiagonal();
+    const Eigen::Vector3d value = measurement.has_value() ? measurement->measurement.velocityBody : Eigen::Vector3d::Zero();
+
+    filter.update(measurementMatrix, measurementNoise, value);
 
     std::println("Ground Truth: {}", measurement.value().measurement.orientation);
+
 
     matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);

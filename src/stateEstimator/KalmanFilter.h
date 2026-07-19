@@ -20,7 +20,7 @@ class KalmanFilter
 {
 
 public:
-  KalmanFilter(StateVector priorState, StateMatrix priorCovariance);
+  KalmanFilter(StateVector priorState, StateMatrix priorCovariance, std::chrono::steady_clock::time_point startTime);
   void predict();
   void update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement);
 
@@ -33,5 +33,5 @@ private:
   StateVector posterioriState;
   StateMatrix posterioriCovariance;
   ConstantVelocityModel model;
-  std::chrono::steady_clock::time_point lastUpdate{ std::chrono::steady_clock::now() };
+  std::chrono::steady_clock::time_point lastUpdate;
 };
