@@ -2,6 +2,8 @@
 #include <Eigen/Dense>
 
 
+ConstantVelocityModel::ConstantVelocityModel() : whiteNoise{ Eigen::Vector3d(sigmaForward, sigmaRight, sigmaDown).asDiagonal() } {}
+
 CVState ConstantVelocityModel::transfer(const CVState &stateVector, double timestep) { return transitionMatrix(timestep) * stateVector; }
 
 
@@ -14,8 +16,16 @@ Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> ConstantVelocityModel::transitionM
 }
 
 
-Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> ConstantVelocityModel::processNoise(double timestep)
+Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> ConstantVelocityModel::processNoise(double timestep) const
 {
-  // TODO: Implement this
-  return timestep * Eigen::Matrix<double, STATE_SIZE, STATE_SIZE>::Identity();
+  Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> processNoise;
+
+  const Eigen::Matrix3d offDiagonal = (1 / 2) * whiteNoise * timestep * timestep;
+
+  processNoise.block<3, 3>(0, 0) = (1 / 3) * whiteNoise * timestep * timestep * timestep;
+  processNoise.block<3, 3>(3, 3) = whiteNoise * timestep;
+  processNoise.block<3, 3>(0, 3) = offDiagonal;
+  processNoise.block<3, 3>(3, 0) = offDiagonal;
+
+  return processNoise;
 }
