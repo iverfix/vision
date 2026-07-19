@@ -4,26 +4,26 @@
 
 ConstantVelocityModel::ConstantVelocityModel() : whiteNoise{ Eigen::Vector3d(sigmaForward, sigmaRight, sigmaDown).asDiagonal() } {}
 
-CVState ConstantVelocityModel::transfer(const CVState &stateVector, double timestep) { return transitionMatrix(timestep) * stateVector; }
+CVState ConstantVelocityModel::transfer(const CVState &stateVector, std::chrono::duration<double> timestep) { return transitionMatrix(timestep) * stateVector; }
 
 
-Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> ConstantVelocityModel::transitionMatrix(double timestep)
+CVStateMatrix ConstantVelocityModel::transitionMatrix(std::chrono::duration<double> timestep)
 {
-  Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> transferMatrix = Eigen::Matrix<double, STATE_SIZE, STATE_SIZE>::Identity();
-  transferMatrix.block<3, 3>(0, 3) = timestep * Eigen::Matrix3d::Identity();
+  CVStateMatrix transferMatrix = CVStateMatrix::Identity();
+  transferMatrix.block<3, 3>(0, 3) = Eigen::Matrix3d::Identity() * timestep.count();
 
   return transferMatrix;
 }
 
-
-Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> ConstantVelocityModel::processNoise(double timestep) const
+CVStateMatrix ConstantVelocityModel::processNoise(std::chrono::duration<double> timestep) const
 {
-  Eigen::Matrix<double, STATE_SIZE, STATE_SIZE> processNoise;
+  CVStateMatrix processNoise;
+  const double deltaT = timestep.count();
 
-  const Eigen::Matrix3d offDiagonal = (1 / 2) * whiteNoise * timestep * timestep;
+  const Eigen::Matrix3d offDiagonal = 0.5 * whiteNoise * deltaT * deltaT;
 
-  processNoise.block<3, 3>(0, 0) = (1 / 3) * whiteNoise * timestep * timestep * timestep;
-  processNoise.block<3, 3>(3, 3) = whiteNoise * timestep;
+  processNoise.block<3, 3>(0, 0) = (1.0 / 3.0) * whiteNoise * deltaT * deltaT * deltaT;
+  processNoise.block<3, 3>(3, 3) = whiteNoise * deltaT;
   processNoise.block<3, 3>(0, 3) = offDiagonal;
   processNoise.block<3, 3>(3, 0) = offDiagonal;
 
