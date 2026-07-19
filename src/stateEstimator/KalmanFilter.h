@@ -1,6 +1,7 @@
 #pragma once
 #include "ConstantVelocity.h"
 #include <Eigen/Dense>
+#include <chrono>
 
 
 // TODO: Utilize templates for this class
@@ -12,6 +13,7 @@ using StateVector = Eigen::Vector<double, STATE_SIZE>;
 using MeasurementVector = Eigen::Vector<double, MEASUREMENT_SIZE>;
 using MeasurementMatrix = Eigen::Matrix<double, MEASUREMENT_SIZE, STATE_SIZE>;
 using KalmanGainMatrix = Eigen::Matrix<double, STATE_SIZE, MEASUREMENT_SIZE>;
+using MeasurementCovariance = Eigen::Matrix<double, MEASUREMENT_SIZE, MEASUREMENT_SIZE>;
 
 
 class KalmanFilter
@@ -20,14 +22,16 @@ class KalmanFilter
 public:
   KalmanFilter(StateVector priorState, StateMatrix priorCovariance);
   void predict();
-  void update(MeasurementMatrix measurementFunction, Eigen::Matrix<double, MEASUREMENT_SIZE, MEASUREMENT_SIZE> measurementNoise, MeasurementVector measurement);
+  void update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement);
 
 private:
   void computeKalmanGain();
-  KalmanGainMatrix computeKalmanGain(MeasurementMatrix measurementFunction, Eigen::Matrix<double, MEASUREMENT_SIZE, MEASUREMENT_SIZE> measurementNoise);
+  KalmanGainMatrix computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise);
 
   StateVector priorState;
   StateMatrix priorCovariance;
-  StateVector estimatedState;
-  StateMatrix esimateCovariance;
+  StateVector posterioriState;
+  StateMatrix posterioriCovariance;
+  ConstantVelocityModel model;
+  std::chrono::steady_clock::time_point lastUpdate{ std::chrono::steady_clock::now() };
 };
