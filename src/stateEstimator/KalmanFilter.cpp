@@ -3,26 +3,27 @@
 #include <chrono>
 
 
-KalmanFilter::KalmanFilter(StateVector priorState, StateMatrix priorCovariance, std::chrono::steady_clock::time_point startTime)
+KalmanFilter::KalmanFilter(StateVector priorState, StateMatrix priorCovariance, TimestampType startTime)
   : priorState(std::move(priorState)), priorCovariance(std::move(priorCovariance)), posterioriState(StateVector::Zero()),
     posterioriCovariance(StateMatrix::Zero()), lastUpdate(startTime)
 {}
 
-void KalmanFilter::predict()
+StateVector KalmanFilter::predict(TimestampType predictionTime)
 {
-  const auto timestep = std::chrono::steady_clock::now() - lastUpdate;
+  const auto timestep = predictionTime - lastUpdate;
   const StateMatrix transitionMatrix = model.transitionMatrix(timestep);
   const StateMatrix processNoise = model.processNoise(timestep);
   priorState = transitionMatrix * posterioriState;
   priorCovariance = transitionMatrix * posterioriCovariance * transitionMatrix + processNoise;
+  return priorState;
 }
 
-void KalmanFilter::update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement)
+void KalmanFilter::update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement, TimestampType time)
 {
   const KalmanGainMatrix kalmanGain = computeKalmanGain(measurementMatrix, measurementNoise);
   posterioriState = priorState + kalmanGain * (measurement - measurementMatrix * priorState);
   posterioriCovariance = (StateMatrix::Identity() - kalmanGain * measurementMatrix) * priorCovariance;
-  lastUpdate = std::chrono::steady_clock::now();
+  lastUpdate = time;
 }
 
 KalmanGainMatrix KalmanFilter::computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise)

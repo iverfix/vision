@@ -7,6 +7,7 @@
 // TODO: Utilize templates for this class
 
 static constexpr int MEASUREMENT_SIZE = 3;
+using TimestampType = std::chrono::sys_time<std::chrono::nanoseconds>;
 
 using StateMatrix = Eigen::Matrix<double, STATE_SIZE, STATE_SIZE, Eigen::RowMajor>;
 using StateVector = Eigen::Vector<double, STATE_SIZE>;
@@ -20,9 +21,13 @@ class KalmanFilter
 {
 
 public:
-  KalmanFilter(StateVector priorState, StateMatrix priorCovariance, std::chrono::steady_clock::time_point startTime);
-  void predict();
-  void update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement);
+  KalmanFilter(StateVector priorState, StateMatrix priorCovariance, TimestampType startTime);
+  StateVector predict(TimestampType predictionTime);
+  void update(MeasurementMatrix measurementMatrix,
+    MeasurementCovariance measurementNoise,
+    MeasurementVector measurement,
+    std::chrono::sys_time<std::chrono::nanoseconds> time);
+
 
 private:
   void computeKalmanGain();
@@ -33,5 +38,6 @@ private:
   StateVector posterioriState;
   StateMatrix posterioriCovariance;
   ConstantVelocityModel model;
-  std::chrono::steady_clock::time_point lastUpdate;
+
+  TimestampType lastUpdate;
 };

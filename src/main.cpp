@@ -48,10 +48,12 @@ int main()
     const Eigen::Matrix3d measurementNoise = Eigen::Vector3d{ 0.1, 0.1, 0.1 }.asDiagonal();
     const Eigen::Vector3d value = measurement.has_value() ? measurement->measurement.velocityBody : Eigen::Vector3d::Zero();
 
-    filter.update(measurementMatrix, measurementNoise, value);
+    auto result = filter.predict(measurement->time);
+
+    filter.update(measurementMatrix, measurementNoise, value, measurement->time);
 
     std::println("Ground Truth: {}", measurement.value().measurement.orientation);
-
+    std::println("Result: {}", result);
 
     matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
     // auto processedImage = matcher.processImage(data->image);

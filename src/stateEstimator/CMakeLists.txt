@@ -7,4 +7,4 @@ target_sources(
 )
 
 target_compile_features(StateEstimator PRIVATE cxx_std_26)
-target_link_libraries(StateEstimator PUBLIC Eigen3::Eigen Models)
+target_link_libraries(StateEstimator PUBLIC Eigen3::Eigen Models DataStreamer)
