@@ -24,7 +24,7 @@ void FeatureMatcher::getPoseDelta(const OdometryImagePair &imagePair, const Came
 
   std::vector<cv::Point2f> src_pts;
   std::vector<cv::Point2f> dst_pts;
-  for (auto &match : matches) {
+  for (const auto &match : matches) {
     const cv::DMatch &first = match.at(0);
     const float distance1 = match.at(0).distance;
     const float distance2 = match.at(1).distance;

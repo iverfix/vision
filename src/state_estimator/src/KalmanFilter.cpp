@@ -26,5 +26,5 @@ void KalmanFilter::update(MeasurementMatrix measurementMatrix, MeasurementCovari
   lastUpdate = time;
 }
 
-KalmanGainMatrix KalmanFilter::computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise)
+KalmanGainMatrix KalmanFilter::computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise) const
 { return priorCovariance * measurementMatrix.transpose() * (measurementMatrix * priorCovariance * measurementMatrix.transpose() + measurementNoise).inverse(); }

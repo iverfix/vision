@@ -5,6 +5,7 @@
 #include "StateEstimator/KalmanFilter.h"
 #include <Eigen/Core>
 #include <opencv2/opencv.hpp>
+#include <print>
 
 constexpr int imageCaptureFrequency = 10;
 constexpr int fps = 1000 / imageCaptureFrequency;
@@ -47,9 +48,11 @@ int main()
     const Eigen::Matrix3d measurementNoise = Eigen::Vector3d{ 0.1, 0.1, 0.1 }.asDiagonal();
     const Eigen::Vector3d value = measurement.has_value() ? measurement->measurement.velocityBody : Eigen::Vector3d::Zero();
 
-    // auto result = filter.predict(measurement->time);
+    auto result = filter.predict(measurement->time);
 
     filter.update(measurementMatrix, measurementNoise, value, measurement->time);
+
+    std::println("Result: {}", result);
 
     matcher.getPoseDelta({ .previousFrame = previousImage->image, .currentFrame = currentImage->image }, camera);
     // auto processedImage = matcher.processImage(data->image);

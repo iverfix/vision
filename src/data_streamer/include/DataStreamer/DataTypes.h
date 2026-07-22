@@ -24,9 +24,9 @@ struct DataPage
 // Coordinate frames
 struct GeodeticPosition
 {
-  double latitude;
-  double longitude;
-  double altitude;
+  double latitude{};
+  double longitude{};
+  double altitude{};
 };
 
 using NorthEast = Eigen::Vector2d;
@@ -47,16 +47,16 @@ using GPSAccuracy = Eigen::Vector2d;
 
 struct GPSMetadata
 {
-  int navstat;
-  int numsats;
-  int posmode;
-  int velmode;
-  int orimode;
+  int navstat{};
+  int numsats{};
+  int posmode{};
+  int velmode{};
+  int orimode{};
 };
 
 struct OxtsMeasurement
 {
-  GeodeticPosition geodeticPostion;
+  GeodeticPosition geodeticPostion{};
   Orientation orientation;
   NorthEastVelocity velocityNorthEast;
   LinearVelocity velocityBody;

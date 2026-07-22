@@ -16,8 +16,8 @@ public:
   [[nodiscard]] CVStateMatrix processNoise(std::chrono::duration<double> timestep) const;
 
 private:
-  Eigen::Matrix3d whiteNoise;
   double sigmaForward{ 6.0 };
   double sigmaRight{ 0.5 };
-  double sigmaDown{};
+  double sigmaDown{ 0.1 };
+  Eigen::Matrix3d whiteNoise;
 };

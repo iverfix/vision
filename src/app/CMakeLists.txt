@@ -5,7 +5,7 @@ enable_project_warnings(Vision)
 
 target_compile_definitions(
     Vision
-    PRIVATE PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+    PRIVATE PROJECT_ROOT_DIR="${PROJECT_ROOT_DIR}"
 )
 
 target_link_libraries(

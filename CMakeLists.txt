@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 4.3.4)
 project(Vision)
 
+set(PROJECT_ROOT_DIR "${CMAKE_SOURCE_DIR}" CACHE PATH "Project root directory")
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(CreateCompileCommandsSymlink)
 include(Dependencies)

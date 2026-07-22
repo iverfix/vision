@@ -22,7 +22,7 @@ class KalmanFilter
 
 public:
   KalmanFilter(StateVector priorState, StateMatrix priorCovariance, TimestampType startTime);
-  StateVector predict(TimestampType predictionTime);
+  [[nodiscard]] StateVector predict(TimestampType predictionTime);
   void update(MeasurementMatrix measurementMatrix,
     MeasurementCovariance measurementNoise,
     MeasurementVector measurement,
@@ -31,8 +31,7 @@ public:
 
 private:
   void computeKalmanGain();
-  KalmanGainMatrix computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise);
-
+  [[nodiscard]] KalmanGainMatrix computeKalmanGain(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise) const;
   StateVector priorState;
   StateMatrix priorCovariance;
   StateVector posterioriState;
