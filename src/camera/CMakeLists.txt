@@ -11,5 +11,5 @@ target_sources(
 )
 
 target_include_directories(Camera PUBLIC include)
-
+target_compile_features(DataStreamer PUBLIC cxx_std_26)
 target_link_libraries(Camera PUBLIC Eigen3::Eigen)

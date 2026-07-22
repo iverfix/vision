@@ -1,6 +1,6 @@
-#include "ImageStreamer.h"
+#include "DataStreamer/ImageStreamer.h"
+#include "DataStreamer/DataTypes.h"
 #include "StreamerUtil.h"
-#include <DataTypes.h>
 #include <filesystem>
 #include <optional>
 #include <vector>

@@ -11,7 +11,7 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/src/stateEstimator)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/models)
 
 add_executable(Vision src/main.cpp)
-target_compile_features(Vision PRIVATE cxx_std_26)
+target_compile_features(Vision PUBLIC cxx_std_26)
 target_compile_definitions(
     Vision
     PRIVATE PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"

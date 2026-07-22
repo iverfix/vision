@@ -5,10 +5,18 @@ target_sources(
     PUBLIC
         FILE_SET HEADERS
             TYPE HEADERS
-            FILES ImageStreamer.h DataTypes.h OxtsStreamer.h
-    PRIVATE StreamerUtil.h StreamerUtil.cpp ImageStreamer.cpp OxtsStreamer.cpp
+            BASE_DIRS include
+            FILES
+                include/DataStreamer/ImageStreamer.h
+                include/DataStreamer/DataTypes.h
+                include/DataStreamer/OxtsStreamer.h
+    PRIVATE
+        src/StreamerUtil.h
+        src/StreamerUtil.cpp
+        src/ImageStreamer.cpp
+        src/OxtsStreamer.cpp
 )
 
-target_compile_features(DataStreamer PRIVATE cxx_std_26)
-
+target_compile_features(DataStreamer PUBLIC cxx_std_26)
+target_include_directories(DataStreamer PUBLIC include)
 target_link_libraries(DataStreamer PUBLIC opencv::opencv)
