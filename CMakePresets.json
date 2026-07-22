@@ -8,12 +8,11 @@
   "configurePresets": [
     {
       "name": "clang-ninja-base",
-      "displayName": "Release base",
+      "displayName": "Base configuration",
       "generator": "Ninja",
       "hidden": true,
       "cacheVariables": {
         "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
@@ -21,7 +20,7 @@
     },
     {
       "name": "relWithDebInfo",
-      "displayName": "Conan Release With Debug",
+      "displayName": "RelWithDebInfo Configuration",
       "inherits": "clang-ninja-base",
       "binaryDir": "${sourceDir}/build/RelWithDebInfo",
       "cacheVariables": {
@@ -31,12 +30,36 @@
     },
     {
       "name": "release",
-      "displayName": "Conan Release Base",
+      "displayName": "Release Configuration",
       "inherits": "clang-ninja-base",
       "binaryDir": "${sourceDir}/build/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/Release/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug Configuration",
+      "inherits": "clang-ninja-base",
+      "binaryDir": "${sourceDir}/build/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/Debug/conan_toolchain.cmake"
+      }
+    },
+    {
+      "name": "cppcheck",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_CXX_CPPCHECK": "cppcheck;--enable=all;--inconclusive;--suppress=missingIncludeSystem;--std=c++26"
+      }
+    },
+    {
+      "name": "clang-tidy",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_CXX_CLANG_TIDY": "clang-tidy"
       }
     }
   ],
@@ -49,6 +72,16 @@
     {
       "name": "relWithDebInfo",
       "configurePreset": "relWithDebInfo",
+      "jobs": 0
+    },
+    {
+      "name": "cppcheck",
+      "configurePreset": "cppcheck",
+      "jobs": 0
+    },
+    {
+      "name": "clang-tidy",
+      "configurePreset": "clang-tidy",
       "jobs": 0
     }
   ],
@@ -76,6 +109,32 @@
         {
           "type": "build",
           "name": "relWithDebInfo"
+        }
+      ]
+    },
+    {
+      "name": "cppcheck",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "cppcheck"
+        },
+        {
+          "type": "build",
+          "name": "cppcheck"
+        }
+      ]
+    },
+    {
+      "name": "clang-tidy",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "clang-tidy"
+        },
+        {
+          "type": "build",
+          "name": "clang-tidy"
         }
       ]
     }

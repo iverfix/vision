@@ -1,3 +1,20 @@
 function(enable_project_warnings target)
-    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(
+        ${target}
+        PRIVATE
+            -Wall
+            -Wextra
+            -Wshadow
+            -Wnon-virtual-dtor
+            -Wold-style-cast
+            -Wcast-align
+            -Wunused
+            -Woverloaded-virtual
+            -Wpedantic
+            -Wconversion
+            -Wnull-dereference
+            -Wdouble-promotion
+            -Wformat=2
+            -Wimplicit-fallthrough
+    )
 endfunction()

@@ -11,10 +11,7 @@ class ConanConfig(ConanFile):
         self.requires("opencv/4.13.0")
 
     def layout(self):
-        if self.settings.build_type == "Release":
-            self.folders.generators = "conan/Release"
-        elif self.settings.build_type == "RelWithDebInfo":
-            self.folders.generators = "conan/RelWithDebInfo"
+        self.folders.generators = f"conan/{self.settings.build_type}"
 
     def configure(self):
         opencv = self.options["opencv"]
