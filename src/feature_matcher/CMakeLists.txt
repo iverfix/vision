@@ -6,8 +6,8 @@ target_sources(
         FILE_SET HEADERS
             BASE_DIRS include
             TYPE HEADERS
-            FILES include/FeatureMatcher/featureMatcher.h
-    PRIVATE src/featureMatcher.cpp
+            FILES include/FeatureMatcher/FeatureMatcher.h
+    PRIVATE src/FeatureMatcher.cpp
 )
 
 target_include_directories(FeatureMatcher PUBLIC include)

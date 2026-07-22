@@ -4,10 +4,10 @@ project(Vision)
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/datastreamer)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/featureMatcher)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/data_streamer)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/feature_matcher)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/camera)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/stateEstimator)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/state_estimator)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/models)
 
 add_executable(Vision src/main.cpp)

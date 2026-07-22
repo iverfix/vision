@@ -1,7 +1,7 @@
 #include "Camera/Camera.h"
 #include "DataStreamer/ImageStreamer.h"
 #include "DataStreamer/OxtsStreamer.h"
-#include "FeatureMatcher/featureMatcher.h"
+#include "FeatureMatcher/FeatureMatcher.h"
 #include "StateEstimator/KalmanFilter.h"
 #include <Eigen/Core>
 #include <opencv2/opencv.hpp>

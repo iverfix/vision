@@ -1,4 +1,4 @@
-#include "FeatureMatcher/featureMatcher.h"
+#include "FeatureMatcher/FeatureMatcher.h"
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <opencv2/core/eigen.hpp>
