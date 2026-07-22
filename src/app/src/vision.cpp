@@ -13,13 +13,13 @@ constexpr int fps = 1000 / imageCaptureFrequency;
 int main()
 {
 
-  std::filesystem::path projectRoot = PROJECT_ROOT_DIR;
-  std::filesystem::path datasetPath = projectRoot / "dataset" / "image_data" / "image_00";
-  std::filesystem::path oxtsPath = projectRoot / "dataset" / "image_data" / "oxts";
+  const std::filesystem::path projectRoot = PROJECT_ROOT_DIR;
+  const std::filesystem::path datasetPath = projectRoot / "dataset" / "image_data" / "image_00";
+  const std::filesystem::path oxtsPath = projectRoot / "dataset" / "image_data" / "oxts";
 
   ImageStreamer streamer{ datasetPath };
   FeatureMatcher matcher{};
-  Camera camera{ 2, projectRoot / "dataset" };
+  Camera const camera{ 2, projectRoot / "dataset" };
   OxtsStreamer oxtsStreamer{ oxtsPath };
 
   std::optional<ImageData> previousImage = streamer.fetchNext();
@@ -29,7 +29,7 @@ int main()
   priorState << Eigen::Vector3d::Zero(), measurement->measurement.velocityBody;
 
 
-  StateMatrix priorCovariance = StateMatrix::Identity();
+  const StateMatrix priorCovariance = StateMatrix::Identity();
   const auto time = measurement->time;
   std::println("Start time {}", time);
   KalmanFilter filter{ priorState, priorCovariance, measurement->time };
