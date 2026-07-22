@@ -17,19 +17,22 @@ class ConanConfig(ConanFile):
             self.folders.generators = "build/RelWithDebInfo"
 
     def configure(self):
-        self.options["opencv"].with_cuda = False
-        self.options["opencv"].with_qt = False
-        self.options["opencv"].with_gtk = False
-        self.options["opencv"].with_vtk = False
-        self.options["opencv"].with_openexr = False
-        self.options["opencv"].with_ffmpeg = True  
+        opencv = self.options["opencv"]
+        opencv.with_cuda = False
+        opencv.with_qt = False
+        opencv.with_gtk = False
+        opencv.with_vtk = False
+        opencv.with_openexr = False
+        opencv.with_ffmpeg = True  
 
-        self.options["ffmpeg"].with_pulse = False
-        self.options["ffmpeg"].with_vaapi = False
-        self.options["ffmpeg"].with_vdpau = False
-        self.options["ffmpeg"].with_xcb = False
-        self.options["ffmpeg"].with_xlib = False
-        self.options["ffmpeg"].with_vulkan = False
+        ffmpeg = self.options["ffmpeg"]
+
+        ffmpeg.with_pulse = False
+        ffmpeg.with_vaapi = False
+        ffmpeg.with_vdpau = False
+        ffmpeg.with_xcb = False
+        ffmpeg.with_xlib = False
+        ffmpeg.with_vulkan = False
 
     def generate(self):
         tc = CMakeToolchain(self)
