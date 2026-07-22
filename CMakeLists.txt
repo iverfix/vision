@@ -3,9 +3,7 @@ project(Vision)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(CreateCompileCommandsSymlink)
-
-find_package(OpenCV REQUIRED)
-find_package(Eigen3 REQUIRED)
+include(Dependencies)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/app)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/data_streamer)
