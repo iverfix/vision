@@ -6,7 +6,7 @@
 #include <print>
 #include <vector>
 
-constexpr float KNN_MATCH_RATIO = 0.8;
+constexpr float KNN_MATCH_RATIO = 0.8F;
 
 void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera)
 {
@@ -29,8 +29,8 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
     const float distance1 = match[0].distance;
     const float distance2 = match[1].distance;
     if (distance1 < KNN_MATCH_RATIO * distance2) {
-      src_pts.push_back(kp1[first.queryIdx].pt);
-      dst_pts.push_back(kp2[first.trainIdx].pt);
+      src_pts.push_back(kp1[static_cast<size_t>(first.queryIdx)].pt);
+      dst_pts.push_back(kp2[static_cast<size_t>(first.trainIdx)].pt);
     }
   }
 
@@ -51,7 +51,6 @@ void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &seco
 
   rotationState = Eigen::Quaterniond(rotation_matrix) * rotationState;
   Eigen::Vector3d accumulatedEuler = rotationState.toRotationMatrix().canonicalEulerAngles(2, 0, 1);
-  Eigen::Vector3d deltaEuler = rotation_matrix.canonicalEulerAngles(2, 0, 1);
 
   rotationState.normalize();
 

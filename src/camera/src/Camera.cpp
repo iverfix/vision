@@ -3,15 +3,15 @@
 #include <string>
 #include <vector>
 
-static constexpr int aspectRatioVectorSize = 2;
-static constexpr int cameraMatrixSize = 9;
-static constexpr int rotationMatrixSize = 9;
-static constexpr int distortionParametersListSize = 5;
-static constexpr int translationVectorSize = 3;
+static constexpr size_t aspectRatioVectorSize = 2;
+static constexpr size_t cameraMatrixSize = 9;
+static constexpr size_t rotationMatrixSize = 9;
+static constexpr size_t distortionParametersListSize = 5;
+static constexpr size_t translationVectorSize = 3;
 
 namespace {
 
-template<typename EigenType> EigenType parseEigen(std::stringstream &stream, int numParameters, const std::string &error_message)
+template<typename EigenType> EigenType parseEigen(std::stringstream &stream, size_t numParameters, const std::string &error_message)
 {
   std::vector<double> output{};
   double element{};
