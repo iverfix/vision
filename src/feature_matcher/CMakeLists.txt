@@ -1,4 +1,5 @@
 add_library(FeatureMatcher)
+add_library(Vision::FeatureMatcher ALIAS FeatureMatcher)
 
 target_sources(
     FeatureMatcher
@@ -13,4 +14,4 @@ target_sources(
 enable_project_warnings(FeatureMatcher)
 target_include_directories(FeatureMatcher PUBLIC include)
 target_compile_features(FeatureMatcher PUBLIC cxx_std_26)
-target_link_libraries(FeatureMatcher PUBLIC opencv::opencv Camera)
+target_link_libraries(FeatureMatcher PUBLIC opencv::opencv Vision::Camera)

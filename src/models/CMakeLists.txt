@@ -1,4 +1,5 @@
 add_library(Models)
+add_library(Vision::Models ALIAS Models)
 
 target_sources(
     Models

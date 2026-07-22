@@ -1,4 +1,5 @@
 add_library(DataStreamer)
+add_library(Vision::DataStreamer ALIAS DataStreamer)
 
 target_sources(
     DataStreamer

@@ -1,4 +1,5 @@
 add_library(Camera)
+add_library(Vision::Camera ALIAS Camera)
 
 target_sources(
     Camera

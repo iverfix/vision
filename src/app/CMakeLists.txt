@@ -13,8 +13,8 @@ target_link_libraries(
     PRIVATE
         opencv::opencv
         Eigen3::Eigen
-        DataStreamer
-        FeatureMatcher
-        Camera
-        StateEstimator
+        Vision::DataStreamer
+        Vision::FeatureMatcher
+        Vision::Camera
+        Vision::StateEstimator
 )
