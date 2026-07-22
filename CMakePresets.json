@@ -7,7 +7,7 @@
   },
   "configurePresets": [
     {
-      "name": "release-base",
+      "name": "clang-ninja-base",
       "displayName": "Release base",
       "generator": "Ninja",
       "hidden": true,
@@ -22,7 +22,7 @@
     {
       "name": "relWithDebInfo",
       "displayName": "Conan Release With Debug",
-      "inherits": "release-base",
+      "inherits": "clang-ninja-base",
       "binaryDir": "${sourceDir}/build/RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
@@ -32,7 +32,7 @@
     {
       "name": "release",
       "displayName": "Conan Release Base",
-      "inherits": "release-base",
+      "inherits": "clang-ninja-base",
       "binaryDir": "${sourceDir}/build/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
@@ -50,6 +50,34 @@
       "name": "relWithDebInfo",
       "configurePreset": "relWithDebInfo",
       "jobs": 0
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "release"
+        },
+        {
+          "type": "build",
+          "name": "release"
+        }
+      ]
+    },
+    {
+      "name": "relWithDebInfo",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "relWithDebInfo"
+        },
+        {
+          "type": "build",
+          "name": "relWithDebInfo"
+        }
+      ]
     }
   ]
 }
