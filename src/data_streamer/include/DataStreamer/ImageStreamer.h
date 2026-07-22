@@ -1,5 +1,5 @@
 #pragma once
-#include "DataStreamer/DataTypes.h"
+#include "NavigationTypes/Types.h"
 #include <filesystem>
 #include <opencv2/opencv.hpp>
 #include <optional>

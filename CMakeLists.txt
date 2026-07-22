@@ -9,6 +9,7 @@ include(Dependencies)
 include(CompilerWarnings)
 
 add_subdirectory(src/app)
+add_subdirectory(src/navigationTypes)
 add_subdirectory(src/data_streamer)
 add_subdirectory(src/feature_matcher)
 add_subdirectory(src/camera)

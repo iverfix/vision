@@ -1,4 +1,4 @@
-#include "DataStreamer/DataTypes.h"
+#include "NavigationTypes/Types.h"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>

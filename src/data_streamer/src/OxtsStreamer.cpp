@@ -1,5 +1,5 @@
 #include "DataStreamer/OxtsStreamer.h"
-#include "DataStreamer/DataTypes.h"
+#include "NavigationTypes/Types.h"
 #include "StreamerUtil.h"
 #include <fstream>
 #include <optional>
