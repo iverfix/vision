@@ -8,29 +8,29 @@
 
 constexpr float KNN_MATCH_RATIO = 0.8F;
 
-void FeatureMatcher::getPoseDelta(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera)
+void FeatureMatcher::getPoseDelta(const OdometryImagePair &imagePair, const Camera &camera)
 {
   std::vector<cv::KeyPoint> kp1;
   std::vector<cv::KeyPoint> kp2;
   cv::Mat desc1;
   cv::Mat desc2;
 
-  detector->detectAndCompute(firstImage, cv::noArray(), kp1, desc1);
-  detector->detectAndCompute(secondImage, cv::noArray(), kp2, desc2);
+  detector->detectAndCompute(imagePair.previousFrame, cv::noArray(), kp1, desc1);
+  detector->detectAndCompute(imagePair.currentFrame, cv::noArray(), kp2, desc2);
 
-  cv::BFMatcher matcher(cv::NORM_HAMMING);
+  const cv::BFMatcher matcher(cv::NORM_HAMMING);
   std::vector<std::vector<cv::DMatch>> matches;
   matcher.knnMatch(desc1, desc2, matches, 2);
 
   std::vector<cv::Point2f> src_pts;
   std::vector<cv::Point2f> dst_pts;
   for (auto &match : matches) {
-    const cv::DMatch &first = match[0];
-    const float distance1 = match[0].distance;
-    const float distance2 = match[1].distance;
+    const cv::DMatch &first = match.at(0);
+    const float distance1 = match.at(0).distance;
+    const float distance2 = match.at(1).distance;
     if (distance1 < KNN_MATCH_RATIO * distance2) {
-      src_pts.push_back(kp1[static_cast<size_t>(first.queryIdx)].pt);
-      dst_pts.push_back(kp2[static_cast<size_t>(first.trainIdx)].pt);
+      src_pts.push_back(kp1.at(static_cast<size_t>(first.queryIdx)).pt);
+      dst_pts.push_back(kp2.at(static_cast<size_t>(first.trainIdx)).pt);
     }
   }
 

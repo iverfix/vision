@@ -6,11 +6,17 @@
 #include <opencv2/opencv.hpp>
 
 
+struct OdometryImagePair
+{
+  cv::Mat previousFrame;
+  cv::Mat currentFrame;
+};
+
 class FeatureMatcher
 {
 public:
   FeatureMatcher() = default;
-  void getPoseDelta(const cv::Mat &firstImage, const cv::Mat &secondImage, const Camera &camera);
+  void getPoseDelta(const OdometryImagePair &imagePair, const Camera &camera);
 
 private:
   cv::Ptr<cv::AKAZE> detector{ cv::AKAZE::create() };

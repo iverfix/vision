@@ -5,7 +5,6 @@
 #include "StateEstimator/KalmanFilter.h"
 #include <Eigen/Core>
 #include <opencv2/opencv.hpp>
-#include <print>
 
 constexpr int imageCaptureFrequency = 10;
 constexpr int fps = 1000 / imageCaptureFrequency;
@@ -25,13 +24,13 @@ int main()
   std::optional<ImageData> previousImage = streamer.fetchNext();
   std::optional<OxtsData> measurement = oxtsStreamer.fetchNextMeasurement();
 
+  if (!previousImage || !measurement) { return 1; }
+
   StateVector priorState;
   priorState << Eigen::Vector3d::Zero(), measurement->measurement.velocityBody;
 
 
   const StateMatrix priorCovariance = StateMatrix::Identity();
-  const auto time = measurement->time;
-  std::println("Start time {}", time);
   KalmanFilter filter{ priorState, priorCovariance, measurement->time };
   MeasurementMatrix measurementMatrix = MeasurementMatrix::Zero();
   measurementMatrix.block<3, 3>(0, 3) = Eigen::Matrix3d::Identity();
@@ -40,22 +39,19 @@ int main()
   while (previousImage.has_value()) {
 
     const auto currentImage = streamer.fetchNext();
-
-    if (currentImage == std::nullopt) { break; }
-
     measurement = oxtsStreamer.fetchNextMeasurement();
+
+    if (!currentImage || !measurement) { break; }
+
 
     const Eigen::Matrix3d measurementNoise = Eigen::Vector3d{ 0.1, 0.1, 0.1 }.asDiagonal();
     const Eigen::Vector3d value = measurement.has_value() ? measurement->measurement.velocityBody : Eigen::Vector3d::Zero();
 
-    auto result = filter.predict(measurement->time);
+    // auto result = filter.predict(measurement->time);
 
     filter.update(measurementMatrix, measurementNoise, value, measurement->time);
 
-    std::println("Ground Truth: {}", measurement.value().measurement.orientation);
-    std::println("Result: {}", result);
-
-    matcher.getPoseDelta(previousImage->image, currentImage->image, camera);
+    matcher.getPoseDelta({ .previousFrame = previousImage->image, .currentFrame = currentImage->image }, camera);
     // auto processedImage = matcher.processImage(data->image);
     cv::imshow("Our image", previousImage->image);
     cv::waitKey(fps);

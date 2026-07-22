@@ -12,7 +12,7 @@ std::optional<ImageData> ImageStreamer::fetchNext()
 
   if (nextImageIndex >= imageFiles.size()) { return std::nullopt; }
 
-  const auto currentImageMetadata = imageFiles[nextImageIndex];
+  const auto currentImageMetadata = imageFiles.at(nextImageIndex);
   const auto imageData = cv::imread(datasetRootDirectory / "data" / currentImageMetadata.path, cv::IMREAD_GRAYSCALE);
 
   ++nextImageIndex;
