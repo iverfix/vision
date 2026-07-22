@@ -14,5 +14,6 @@ add_subdirectory(src/feature_matcher)
 add_subdirectory(src/camera)
 add_subdirectory(src/state_estimator)
 add_subdirectory(src/models)
+add_subdirectory(src/vision_grpc)
 
 create_compile_commands_symlink()

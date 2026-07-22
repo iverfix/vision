@@ -9,6 +9,7 @@ class ConanConfig(ConanFile):
     def requirements(self):
         self.requires("eigen/5.0.1", force=True)
         self.requires("opencv/4.13.0")
+        self.requires("grpc/1.82.0")
 
     def layout(self):
         self.folders.generators = f"conan/{self.settings.build_type}"
@@ -21,6 +22,8 @@ class ConanConfig(ConanFile):
         opencv.with_vtk = False
         opencv.with_openexr = False
         opencv.with_ffmpeg = True  
+        opencv.with_protobuf = False
+        opencv.dnn = False
 
         ffmpeg = self.options["ffmpeg"]
 
