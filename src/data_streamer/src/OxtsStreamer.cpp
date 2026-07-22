@@ -45,7 +45,7 @@ std::optional<OxtsData> OxtsStreamer::fetchNextMeasurement()
 {
 
   if (nextImageIndex >= files.size()) { return std::nullopt; };
-  const auto &currentFile = files[nextImageIndex++];
+  const auto &currentFile = files.at(nextImageIndex++);
   const std::optional<OxtsMeasurement> currentDocument = parseOxtsFile(datasetRootDirectory / "data" / currentFile.path);
 
   if (currentDocument == std::nullopt) { return std::nullopt; };
@@ -70,20 +70,28 @@ std::optional<OxtsMeasurement> OxtsStreamer::parseOxtsFile(const std::filesystem
 
   if (measurements.size() != NUM_MEASUREMENTS) { return std::nullopt; }
 
-  GeodeticPosition geoPosition{ .latitude = measurements[Latitude], .longitude = measurements[Longitude], .altitude = measurements[Altitude] };
-  Orientation orientation{ measurements[Roll], measurements[Pitch], measurements[Yaw] };
-  NorthEastVelocity northEastVelocity{ measurements[VelocityNorth], measurements[VelocityEast] };
-  LinearVelocity linearVelocity{ measurements[VelocityForward], measurements[VelocityLeft], measurements[VelocityUp] };
-  LinearAcceleration linearAccelerationIMUFrame{ measurements[AccelerationIMUX], measurements[AccelerationIMUY], measurements[AccelerationIMUZ] };
-  LinearAcceleration linearAccelerationBodyFrame{ measurements[AccelerationForward], measurements[AccelerationLeft], measurements[AccelerationUP] };
-  AngularVelocity angularVelocityIMUFrame{ measurements[AngularVelocityIMUX], measurements[AngularVelocityIMUY], measurements[AngularVelocityIMUZ] };
-  AngularVelocity angularVelocityBodyFrame{ measurements[AngularVelocityForward], measurements[AngularVelocityLeft], measurements[AngularVelocityUP] };
-  GPSAccuracy gpsAccuracy{ measurements[PositionAccuracy], measurements[VelocityAccuracy] };
-  GPSMetadata gpsMetadata{ .navstat = static_cast<int>(measurements[Navstate]),
-    .numsats = static_cast<int>(measurements[NumSats]),
-    .posmode = static_cast<int>(measurements[PosMode]),
-    .velmode = static_cast<int>(measurements[VelMode]),
-    .orimode = static_cast<int>(measurements[OriMode]) };
+  GeodeticPosition const geoPosition{ .latitude = measurements.at(Latitude), .longitude = measurements.at(Longitude), .altitude = measurements.at(Altitude) };
+  Orientation const orientation{ measurements.at(Roll), measurements.at(Pitch), measurements.at(Yaw) };
+  NorthEastVelocity const northEastVelocity{ measurements.at(VelocityNorth), measurements.at(VelocityEast) };
+  LinearVelocity const linearVelocity{ measurements.at(VelocityForward), measurements.at(VelocityLeft), measurements.at(VelocityUp) };
+  LinearAcceleration const linearAccelerationIMUFrame{
+    measurements.at(AccelerationIMUX), measurements.at(AccelerationIMUY), measurements.at(AccelerationIMUZ)
+  };
+  LinearAcceleration const linearAccelerationBodyFrame{
+    measurements.at(AccelerationForward), measurements.at(AccelerationLeft), measurements.at(AccelerationUP)
+  };
+  AngularVelocity const angularVelocityIMUFrame{
+    measurements.at(AngularVelocityIMUX), measurements.at(AngularVelocityIMUY), measurements.at(AngularVelocityIMUZ)
+  };
+  AngularVelocity const angularVelocityBodyFrame{
+    measurements.at(AngularVelocityForward), measurements.at(AngularVelocityLeft), measurements.at(AngularVelocityUP)
+  };
+  GPSAccuracy const gpsAccuracy{ measurements.at(PositionAccuracy), measurements.at(VelocityAccuracy) };
+  GPSMetadata const gpsMetadata{ .navstat = static_cast<int>(measurements.at(Navstate)),
+    .numsats = static_cast<int>(measurements.at(NumSats)),
+    .posmode = static_cast<int>(measurements.at(PosMode)),
+    .velmode = static_cast<int>(measurements.at(VelMode)),
+    .orimode = static_cast<int>(measurements.at(OriMode)) };
 
   return OxtsMeasurement{ .geodeticPostion = geoPosition,
     .orientation = convertFromUSToEUOrientation(orientation),
