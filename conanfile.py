@@ -11,7 +11,10 @@ class ConanConfig(ConanFile):
         self.requires("opencv/4.13.0")
 
     def layout(self):
-        self.folders.generators = "build"
+        if self.settings.build_type == "Release":
+            self.folders.generators = "build/Release"
+        elif self.settings.build_type == "RelWithDebInfo":
+            self.folders.generators = "build/RelWithDebInfo"
 
     def configure(self):
         self.options["opencv"].with_cuda = False
