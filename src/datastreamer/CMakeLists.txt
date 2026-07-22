@@ -2,7 +2,10 @@ add_library(DataStreamer)
 
 target_sources(
     DataStreamer
-    PUBLIC FILE_SET HEADERS FILES ImageStreamer.h DataTypes.h OxtsStreamer.h
+    PUBLIC
+        FILE_SET HEADERS
+            TYPE HEADERS
+            FILES ImageStreamer.h DataTypes.h OxtsStreamer.h
     PRIVATE StreamerUtil.h StreamerUtil.cpp ImageStreamer.cpp OxtsStreamer.cpp
 )
 
