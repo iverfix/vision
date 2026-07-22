@@ -61,6 +61,13 @@
       "cacheVariables": {
         "CMAKE_CXX_CLANG_TIDY": "clang-tidy"
       }
+    },
+    {
+      "name": "iwyu",
+      "inherits": "debug",
+      "cacheVariables": {
+        "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use"
+      }
     }
   ],
   "buildPresets": [
@@ -82,6 +89,11 @@
     {
       "name": "clang-tidy",
       "configurePreset": "clang-tidy",
+      "jobs": 0
+    },
+    {
+      "name": "iwyu",
+      "configurePreset": "iwyu",
       "jobs": 0
     }
   ],
@@ -135,6 +147,19 @@
         {
           "type": "build",
           "name": "clang-tidy"
+        }
+      ]
+    },
+    {
+      "name": "iwyu",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "iwyu"
+        },
+        {
+          "type": "build",
+          "name": "iwyu"
         }
       ]
     }
