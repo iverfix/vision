@@ -82,6 +82,11 @@
       "jobs": 0
     },
     {
+      "name": "debug",
+      "configurePreset": "debug",
+      "jobs": 0
+    },
+    {
       "name": "cppcheck",
       "configurePreset": "cppcheck",
       "jobs": 0
@@ -121,6 +126,19 @@
         {
           "type": "build",
           "name": "relWithDebInfo"
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "debug"
         }
       ]
     },
