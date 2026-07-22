@@ -20,7 +20,7 @@
       }
     },
     {
-      "name": "release-with-debug",
+      "name": "relWithDebInfo",
       "displayName": "Conan Release With Debug",
       "inherits": "release-base",
       "binaryDir": "${sourceDir}/build/RelWithDebInfo",
@@ -42,12 +42,14 @@
   ],
   "buildPresets": [
     {
-      "name": "build-release",
-      "configurePreset": "release"
+      "name": "release",
+      "configurePreset": "release",
+      "jobs": 0
     },
     {
-      "name": "build-release-debug",
-      "configurePreset": "release-with-debug"
+      "name": "relWithDebInfo",
+      "configurePreset": "relWithDebInfo",
+      "jobs": 0
     }
   ]
 }
