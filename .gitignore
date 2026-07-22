@@ -3,3 +3,5 @@ dataset
 build
 
 CMakeUserPresets.json
+
+perf.data
