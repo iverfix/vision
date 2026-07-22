@@ -4,29 +4,12 @@ project(Vision)
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 REQUIRED)
 
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/app)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/data_streamer)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/feature_matcher)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/camera)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/state_estimator)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/models)
-
-add_executable(Vision src/main.cpp)
-target_compile_features(Vision PUBLIC cxx_std_26)
-target_compile_definitions(
-    Vision
-    PRIVATE PROJECT_ROOT_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
-)
-
-target_link_libraries(
-    Vision
-    PRIVATE
-        opencv::opencv
-        Eigen3::Eigen
-        DataStreamer
-        FeatureMatcher
-        Camera
-        StateEstimator
-)
 
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
     execute_process(
