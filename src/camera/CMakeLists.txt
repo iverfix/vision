@@ -9,7 +9,7 @@ target_sources(
             FILES include/Camera/Camera.h
     PRIVATE src/Camera.cpp
 )
-
+enable_project_warnings(Camera)
 target_include_directories(Camera PUBLIC include)
-target_compile_features(DataStreamer PUBLIC cxx_std_26)
+target_compile_features(Camera PUBLIC cxx_std_26)
 target_link_libraries(Camera PUBLIC Eigen3::Eigen)

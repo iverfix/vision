@@ -10,6 +10,7 @@ target_sources(
     PRIVATE src/KalmanFilter.cpp
 )
 
+enable_project_warnings(StateEstimator)
 target_compile_features(StateEstimator PUBLIC cxx_std_26)
 target_include_directories(StateEstimator PUBLIC include)
 target_link_libraries(StateEstimator PUBLIC Eigen3::Eigen Models DataStreamer)

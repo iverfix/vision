@@ -10,6 +10,7 @@ target_sources(
     PRIVATE src/ConstantVelocity.cpp
 )
 
+enable_project_warnings(Models)
 target_compile_features(Models PUBLIC cxx_std_26)
 target_include_directories(Models PUBLIC include)
 target_link_libraries(Models Eigen3::Eigen)

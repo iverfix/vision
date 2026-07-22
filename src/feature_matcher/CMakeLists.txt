@@ -10,6 +10,7 @@ target_sources(
     PRIVATE src/FeatureMatcher.cpp
 )
 
+enable_project_warnings(FeatureMatcher)
 target_include_directories(FeatureMatcher PUBLIC include)
 target_compile_features(FeatureMatcher PUBLIC cxx_std_26)
 target_link_libraries(FeatureMatcher PUBLIC opencv::opencv Camera)
