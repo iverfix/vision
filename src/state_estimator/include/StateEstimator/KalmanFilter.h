@@ -1,13 +1,11 @@
 #pragma once
 #include "Models/ConstantVelocity.h"
 #include <Eigen/Dense>
-#include <chrono>
-
+#include <NavigationTypes/Types.h>
 
 // TODO: Utilize templates for this class
 
 static constexpr int MEASUREMENT_SIZE = 3;
-using TimestampType = std::chrono::sys_time<std::chrono::nanoseconds>;
 
 using StateMatrix = Eigen::Matrix<double, STATE_SIZE, STATE_SIZE, Eigen::RowMajor>;
 using StateVector = Eigen::Vector<double, STATE_SIZE>;
@@ -23,10 +21,7 @@ class KalmanFilter
 public:
   KalmanFilter(StateVector priorState, StateMatrix priorCovariance, TimestampType startTime);
   [[nodiscard]] StateVector predict(TimestampType predictionTime);
-  void update(MeasurementMatrix measurementMatrix,
-    MeasurementCovariance measurementNoise,
-    MeasurementVector measurement,
-    std::chrono::sys_time<std::chrono::nanoseconds> time);
+  void update(MeasurementMatrix measurementMatrix, MeasurementCovariance measurementNoise, MeasurementVector measurement, TimestampType time);
 
 
 private:
@@ -37,6 +32,5 @@ private:
   StateVector posterioriState;
   StateMatrix posterioriCovariance;
   ConstantVelocityModel model;
-
   TimestampType lastUpdate;
 };

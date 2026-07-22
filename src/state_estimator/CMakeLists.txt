@@ -16,5 +16,9 @@ target_compile_features(StateEstimator PUBLIC cxx_std_26)
 target_include_directories(StateEstimator PUBLIC include)
 target_link_libraries(
     StateEstimator
-    PUBLIC Eigen3::Eigen Vision::Models Vision::DataStreamer
+    PUBLIC
+        Eigen3::Eigen
+        Vision::Models
+        Vision::DataStreamer
+        Vision::NavigationTypes
 )
