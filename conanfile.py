@@ -12,9 +12,9 @@ class ConanConfig(ConanFile):
 
     def layout(self):
         if self.settings.build_type == "Release":
-            self.folders.generators = "build/Release"
+            self.folders.generators = "conan/Release"
         elif self.settings.build_type == "RelWithDebInfo":
-            self.folders.generators = "build/RelWithDebInfo"
+            self.folders.generators = "conan/RelWithDebInfo"
 
     def configure(self):
         opencv = self.options["opencv"]

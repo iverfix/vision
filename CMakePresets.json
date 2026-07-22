@@ -26,7 +26,7 @@
       "binaryDir": "${sourceDir}/build/RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/RelWithDebInfo/conan_toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/RelWithDebInfo/conan_toolchain.cmake"
       }
     },
     {
@@ -36,7 +36,7 @@
       "binaryDir": "${sourceDir}/build/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build/Release/conan_toolchain.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/Release/conan_toolchain.cmake"
       }
     }
   ],
