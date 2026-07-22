@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include <fstream>
 #include <string>
 #include <vector>
@@ -15,7 +15,9 @@ template<typename EigenType> EigenType parseEigen(std::stringstream &stream, int
 {
   std::vector<double> output{};
   double element{};
-  while (stream >> element) { output.push_back(element); }
+  while (stream >> element) {
+    output.push_back(element);
+  }
 
   if (output.size() != numParameters) { throw std::runtime_error(error_message); }
 

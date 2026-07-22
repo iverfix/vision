@@ -1,5 +1,5 @@
 #pragma once
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <opencv2/features2d.hpp>
