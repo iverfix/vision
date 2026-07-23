@@ -69,6 +69,19 @@
       "cacheVariables": {
         "CMAKE_CXX_INCLUDE_WHAT_YOU_USE": "include-what-you-use"
       }
+    },
+    {
+      "name": "ci-configure",
+      "displayName": "Base configuration",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/Release",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING"
+      }
     }
   ],
   "buildPresets": [
@@ -100,6 +113,11 @@
     {
       "name": "iwyu",
       "configurePreset": "iwyu",
+      "jobs": 0
+    },
+    {
+      "name": "ci-build",
+      "configurePreset": "ci-configure",
       "jobs": 0
     }
   ],
@@ -179,6 +197,19 @@
         {
           "type": "build",
           "name": "iwyu"
+        }
+      ]
+    },
+    {
+      "name": "ci-pipeline",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "ci-configure"
+        },
+        {
+          "type": "build",
+          "name": "ci-build"
         }
       ]
     }

@@ -49,4 +49,4 @@ jobs:
 
       - name: Build
         run: |
-          cmake --workflow --preset release
+          cmake --workflow --preset ci-pipeline
