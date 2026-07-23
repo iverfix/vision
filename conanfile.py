@@ -33,6 +33,8 @@ class ConanConfig(ConanFile):
         ffmpeg.with_xcb = False
         ffmpeg.with_xlib = False
         ffmpeg.with_vulkan = False
+        ffmpeg.with_sdl = False
+        ffmpeg.with_opencl = False
 
     def generate(self):
         tc = CMakeToolchain(self)
