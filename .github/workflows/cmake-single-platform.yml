@@ -45,6 +45,7 @@ jobs:
             --output-folder=conan/Release \
             --build=missing \
             -s build_type=Release
+            -c tools.system.package_manager:mode=install
 
       - name: Build
         run: |
