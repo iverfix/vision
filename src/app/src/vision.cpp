@@ -52,7 +52,7 @@ int main()
 
     filter.update(measurementMatrix, measurementNoise, value, measurement->time);
 
-    std::println("Result: {}", result);
+    // std::println("Result: {}", result);
 
     matcher.getPoseDelta({ .previousFrame = previousImage->image, .currentFrame = currentImage->image }, camera);
     // auto processedImage = matcher.processImage(data->image);

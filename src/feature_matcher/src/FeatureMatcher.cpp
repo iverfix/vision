@@ -55,6 +55,6 @@ void FeatureMatcher::getPoseDelta(const OdometryImagePair &imagePair, const Came
   rotationState.normalize();
 
   // std::println("Eulerian delta: ({})", deltaEuler);
-  std::println("Eulerian accum: ({})", accumulatedEuler);
-  std::println();
+  // std::println("Eulerian accum: ({})", accumulatedEuler);
+  // std::println();
 }
