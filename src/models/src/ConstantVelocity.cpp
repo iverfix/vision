@@ -4,6 +4,7 @@
 
 constexpr static double oneThird = 1.0 / 3.0;
 
+
 ConstantVelocityModel::ConstantVelocityModel() : whiteNoise{ Eigen::Vector3d(sigmaForward, sigmaRight, sigmaDown).asDiagonal() } {}
 
 CVState ConstantVelocityModel::transfer(const CVState &stateVector, std::chrono::duration<double> timestep) { return transitionMatrix(timestep) * stateVector; }
