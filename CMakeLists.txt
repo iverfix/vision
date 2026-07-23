@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(CreateCompileCommandsSymlink)
 include(Dependencies)
 include(CompilerWarnings)
+include(Protobuf)
 
 add_subdirectory(src/app)
 add_subdirectory(src/navigationTypes)
