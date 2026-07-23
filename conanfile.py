@@ -21,20 +21,10 @@ class ConanConfig(ConanFile):
         opencv.with_gtk = False
         opencv.with_vtk = False
         opencv.with_openexr = False
-        opencv.with_ffmpeg = True  
+        opencv.with_ffmpeg = False  
         opencv.with_protobuf = False
         opencv.dnn = False
 
-        ffmpeg = self.options["ffmpeg"]
-
-        ffmpeg.with_pulse = False
-        ffmpeg.with_vaapi = False
-        ffmpeg.with_vdpau = False
-        ffmpeg.with_xcb = False
-        ffmpeg.with_xlib = False
-        ffmpeg.with_vulkan = False
-        ffmpeg.with_sdl = False
-        ffmpeg.with_opencl = False
 
     def generate(self):
         tc = CMakeToolchain(self)
