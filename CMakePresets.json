@@ -80,7 +80,8 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING"
+        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/Release/conan_toolchain.cmake"
       }
     }
   ],
