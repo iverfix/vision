@@ -83,7 +83,7 @@ jobs:
       - name: Run cppcheck
         run: |
           cppcheck \
-            --project=build/compile_commands.json \
+            --project=build/Release/compile_commands.json \
             --enable=warning,style,performance,portability \
             --inconclusive \
             --error-exitcode=1
