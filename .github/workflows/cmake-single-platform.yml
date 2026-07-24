@@ -22,6 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: print clang-format version
+        run: clang-format --version
+
       - name: Install CMake
         uses: lukka/get-cmake@latest
 
