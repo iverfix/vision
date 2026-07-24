@@ -75,10 +75,9 @@ jobs:
             -c tools.system.package_manager:mode=install \
             -c tools.system.package_manager:sudo=True
 
-      - name: Configure project
+      - name: Build
         run: |
-          cmake --preset ci-configure
-
+          cmake --workflow --preset ci-pipeline
 
       - name: Run cppcheck
         run: |
@@ -96,6 +95,3 @@ jobs:
 
 
 
-      - name: Build
-        run: |
-          cmake --workflow --preset ci-pipeline
