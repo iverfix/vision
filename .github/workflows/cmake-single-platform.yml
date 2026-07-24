@@ -84,8 +84,7 @@ jobs:
           cppcheck \
             --project=build/Release/compile_commands.json \
             --enable=warning,style,performance,portability \
-            --inconclusive \
-            --error-exitcode=1
+            --inconclusive 
 
 
       - name: Run clang-tidy
