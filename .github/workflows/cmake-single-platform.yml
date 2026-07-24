@@ -22,8 +22,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: print clang-format version
-        run: clang-format --version
+
+      - name: Install clang-format 22
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 22
+
 
       - name: Install CMake
         uses: lukka/get-cmake@latest
