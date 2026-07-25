@@ -3,6 +3,7 @@ description: Install latests Cpp tooling
 
 runs:
   using: composite
+  shell: bash
   steps:
     - name: Install tooling
       run: |
