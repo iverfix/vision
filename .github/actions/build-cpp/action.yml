@@ -16,8 +16,8 @@ runs:
           cmake -S . \
             -B build/${{ inputs.compiler }}-${{ inputs.build_type }} \
             -G Ninja \
-            -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc' || 'clang' }} \
-            -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++' || 'clang++' }} \
+            -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc-16' || 'clang' }} \
+            -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++-16' || 'clang++' }} \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
             -DCMAKE_TOOLCHAIN_FILE=conan/${{ inputs.build_type }}/conan_toolchain.cmake
 
