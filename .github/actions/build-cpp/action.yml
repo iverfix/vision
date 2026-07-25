@@ -23,4 +23,4 @@ runs:
       - name: Build
         shell: bash
         run: |
-        cmake --build build/${{ inputs.compiler }}-${{ inputs.build_type }}
+          cmake --build build/${{ inputs.compiler }}-${{ inputs.build_type }}
