@@ -3,26 +3,25 @@ description: Install latests Cpp tooling
 
 runs:
   using: composite
+  steps:
+    - name: Install tooling
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        sudo ./llvm.sh 22
+        sudo apt-get update
+        sudo apt-get install -y clang-format-22
+        sudo apt-get install -y cppcheck
 
-    steps:
-      - name: Install tooling
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 22
-          sudo apt-get update
-          sudo apt-get install -y clang-format-22
-          sudo apt-get install -y cppcheck
+    - name: Install CMake
+      uses: lukka/get-cmake@latest
 
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
+    - name: Install python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
 
-      - name: Install python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install conan
-        run: |
-          python -m pip install --upgrade pip
-          pip install conan
+    - name: Install conan
+      run: |
+        python -m pip install --upgrade pip
+        pip install conan
