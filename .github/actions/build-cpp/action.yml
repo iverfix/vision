@@ -1,0 +1,10 @@
+name: Build cpp
+description: Build Cpp project
+
+runs:
+  using: composite
+  steps: 
+      - name: Build
+        shell: bash
+        run: |
+          cmake --workflow --preset ci-pipeline
