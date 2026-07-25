@@ -24,43 +24,12 @@ jobs:
       - uses: ./.github/actions/setup-cpp
       - uses: ./.github/actions/audit
 
-      - name: Cache Conan packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.conan2
-          key: conan-${{ runner.os }}-${{ hashFiles('conanfile.py', 'conan.lock') }}
-          restore-keys: |
-            conan-${{ runner.os }}-
-
-      - name: Create Conan profile
-        run: |
-          conan profile detect --force
-
-      - name: Install Conan dependencies
-        run: |
-          conan install . \
-            --lockfile=conan.lock \
-            --build=missing \
-            -s build_type=Release \
-            -c tools.system.package_manager:mode=install \
-            -c tools.system.package_manager:sudo=True
+      - uses: ./.github/actions/install-dependencies
 
       - name: Build
         run: |
           cmake --workflow --preset ci-pipeline
 
-      - name: Run cppcheck
-        run: |
-          cppcheck \
-            --project=build/Release/compile_commands.json \
-            --enable=warning,style,performance,portability \
-            --inconclusive 
-
-
-      - name: Run clang-tidy
-        run: |
-          run-clang-tidy \
-            -p build/Release
-
+      - uses: ./.github/actions/quality-check
 
 
