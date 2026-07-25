@@ -15,10 +15,10 @@ runs:
           sudo apt-get install -y cppcheck
 
       - name: Install CMake
-        uses lukka/get-cmake@latest
+        uses: lukka/get-cmake@latest
 
       - name: Install python
-        uses: actions/setup-python@5
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
