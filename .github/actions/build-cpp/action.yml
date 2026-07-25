@@ -10,12 +10,17 @@ inputs:
 runs:
   using: composite
   steps: 
-      - name: Build
+      - name: Configure
         shell: bash
         run: |
-          cmake --workflow --preset ci-pipeline \
+          cmake --preset ci-configure \
           -DCMAKE_BINARY_DIR=build/${{ inputs.compiler }}-${{ inputs.build_type }} \
           -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc' || 'clang' }} \
           -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++' || 'clang++' }} \
           -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \ 
           -DCMAKE_TOOLCHAIN_FILE=conan/${{ inputs.build_type }}/conan_toolchain.cmake
+
+      - name: Build
+        shell: bash
+        run: |
+        cmake --build build/${{ inputs.compiler }}-${{ inputs.build_type }}
