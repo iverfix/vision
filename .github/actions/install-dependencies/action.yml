@@ -1,7 +1,7 @@
 name: Install dependencies
 description: Use conan for installing dependencies
 
-jobs:
+runs:
   uses: composite
   steps:
 

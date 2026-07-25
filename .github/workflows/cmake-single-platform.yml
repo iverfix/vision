@@ -21,15 +21,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-cpp
-      - uses: ./.github/actions/audit
 
-      - uses: ./.github/actions/install-dependencies
+      - name: Setup cpp environment
+        uses: ./.github/actions/setup-cpp
+
+      - name: Check formatting
+        uses: ./.github/actions/audit
+
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Build
         run: |
           cmake --workflow --preset ci-pipeline
 
-      - uses: ./.github/actions/quality-check
+      - name: Static analyisis
+        uses: ./.github/actions/quality-check
+
 
 
