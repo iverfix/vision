@@ -34,7 +34,7 @@ jobs:
         uses: ./.github/actions/setup-cpp
 
       - name: Check formatting
-        if $ {{ matrix.compiler }} == 'clang' && ${{ matrix.build_type }} == 'Debug'
+        if: ${{ matrix.compiler }} == 'clang' && ${{ matrix.build_type }} == 'Debug'
         uses: ./.github/actions/audit
 
       - name: Install dependencies
@@ -49,8 +49,8 @@ jobs:
           compiler: ${{ matrix.compiler }}
           build_type: ${{ matrix.build_type }}
 
-      - name: Static analyisis
-        if $ {{ matrix.compiler }} == 'clang' && ${{ matrix.build_type }} == 'Debug'
+      - name: Static analysis
+        if: ${{ matrix.compiler }} == 'clang' && ${{ matrix.build_type }} == 'Debug'
         uses: ./.github/actions/quality-check
 
 
