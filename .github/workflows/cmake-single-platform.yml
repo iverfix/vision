@@ -40,6 +40,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/install-dependencies
+        with:
+          build_type: ${{ matrix.build_type }}
 
       - name: Build cpp
         uses: ./.github/actions/build-cpp
