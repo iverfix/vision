@@ -2,10 +2,11 @@ name: Quality checks
 description: Run linting and static analysis for checking for common errors
 
 
-jobs:
+runs:
   using: composite
   steps:
     - name: Run cppcheck
+      shell: bash
       run: |
         cppcheck \
           --project=build/Release/compile_commands.json \
@@ -14,6 +15,7 @@ jobs:
 
 
     - name: Run clang-tidy
+      shell: bash
       run: |
         run-clang-tidy \
           -p build/Release

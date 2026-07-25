@@ -31,9 +31,8 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/install-dependencies
 
-      - name: Build
-        run: |
-          cmake --workflow --preset ci-pipeline
+      - name: Build cpp
+        uses: ./.github/actions/build
 
       - name: Static analyisis
         uses: ./.github/actions/quality-check

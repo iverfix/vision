@@ -2,7 +2,7 @@ name: Install dependencies
 description: Use conan for installing dependencies
 
 runs:
-  uses: composite
+  using: composite
   steps:
 
     - name: Cache Conan packages
@@ -14,10 +14,12 @@ runs:
           conan-${{ runner.os }}-
 
     - name: Create Conan profile
+      shell: bash
       run: |
         conan profile detect --force
 
     - name: Install Conan dependencies
+      shell: bash
       run: |
         conan install . \
           --lockfile=conan.lock \
