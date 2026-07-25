@@ -19,6 +19,16 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - gcc
+          - clang
+        build_type:
+          - Debug
+          - Release
+
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +43,9 @@ jobs:
 
       - name: Build cpp
         uses: ./.github/actions/build-cpp
+        with:
+          compiler: ${{ matrix.compiler }}
+          build_type: ${{ matrix.build_type }}
 
       - name: Static analyisis
         uses: ./.github/actions/quality-check

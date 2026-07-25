@@ -74,14 +74,9 @@
       "name": "ci-configure",
       "displayName": "Base configuration",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/Release",
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/conan/Release/conan_toolchain.cmake"
+        "CMAKE_MESSAGE_LOG_LEVEL": "WARNING"
       }
     }
   ],
