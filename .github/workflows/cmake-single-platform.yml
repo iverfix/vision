@@ -22,15 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-
-      - name: Install clang-format 22
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 22
-          sudo apt-get update
-          sudo apt-get install -y clang-format-22
-          sudo apt-get install -y cppcheck
+      - uses: ./install-dependencies
 
 
       - name: Check formatting
@@ -41,18 +33,6 @@ jobs:
             -print0 |
           xargs -0 clang-format-22 --dry-run --Werror
 
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Conan
-        run: |
-          python -m pip install --upgrade pip
-          pip install conan
 
       - name: Cache Conan packages
         uses: actions/cache@v4
