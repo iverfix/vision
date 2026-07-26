@@ -9,7 +9,7 @@ runs:
       shell: bash
       run: |
         cppcheck \
-          --project=build/Release/compile_commands.json \
+          --project=build/Debug/compile_commands.json \
           --enable=warning,style,performance,portability \
           --inconclusive 
 
@@ -18,5 +18,5 @@ runs:
       shell: bash
       run: |
         run-clang-tidy \
-          -p build/Release
+          -p build/Debug
 

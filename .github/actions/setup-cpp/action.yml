@@ -11,7 +11,7 @@ runs:
 
     - name: Install tooling
       shell: bash
-      if: ${{ matrix.compiler == 'clang' }}
+      if: ${{ inputs.compiler == 'clang' }}
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
@@ -22,7 +22,7 @@ runs:
 
     - name: Install gcc tooling
       shell: bash
-      if: ${{ matrix.compiler == 'gcc' }}
+      if: ${{ inputs.compiler == 'gcc' }}
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt-get update
