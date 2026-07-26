@@ -14,7 +14,7 @@ runs:
         shell: bash
         run: |
           cmake -S . \
-            -B build/${{ inputs.compiler }}-${{ inputs.build_type }} \
+            -B build/${{ inputs.build_type }} \
             -G Ninja \
             -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc-16' || 'clang' }} \
             -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++-16' || 'clang++' }} \
@@ -24,4 +24,4 @@ runs:
       - name: Build
         shell: bash
         run: |
-          cmake --build build/${{ inputs.compiler }}-${{ inputs.build_type }}
+          cmake --build build/${{ inputs.build_type }}
