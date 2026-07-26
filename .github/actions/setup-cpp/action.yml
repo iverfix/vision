@@ -1,11 +1,17 @@
 name: Setup C++ environment
 description: Install latests Cpp tooling
 
+inputs:
+  compiler:
+    required: true
+
 runs:
   using: composite
   steps:
+
     - name: Install tooling
       shell: bash
+      if: ${{ inputs.compiler == 'clang' }}
       run: |
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
@@ -14,11 +20,23 @@ runs:
         sudo apt-get install -y clang-format-22
         sudo apt-get install -y cppcheck
 
+    - name: Install gcc tooling
+      shell: bash
+      if: ${{ inputs.compiler == 'gcc' }}
+      run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
+        sudo apt install gcc-16 g++-16
+        sudo update-alternatives \
+          --install /usr/bin/gcc gcc /usr/bin/gcc-16 100 \
+          --slave /usr/bin/g++ g++ /usr/bin/g++-16
+        sudo update-alternatives --set gcc /usr/bin/gcc-16
+
     - name: Install CMake
       uses: lukka/get-cmake@latest
 
     - name: Install python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: "3.12"
 

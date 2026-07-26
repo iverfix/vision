@@ -2,6 +2,10 @@ name: Quality checks
 description: Run linting and static analysis for checking for common errors
 
 
+inputs:
+  build_type:
+    required: true
+
 runs:
   using: composite
   steps:
@@ -9,7 +13,7 @@ runs:
       shell: bash
       run: |
         cppcheck \
-          --project=build/Release/compile_commands.json \
+          --project=build/${{ inputs.build_type }}/compile_commands.json \
           --enable=warning,style,performance,portability \
           --inconclusive 
 
@@ -18,5 +22,5 @@ runs:
       shell: bash
       run: |
         run-clang-tidy \
-          -p build/Release
+          -p build/${{ inputs.build_type }}
 

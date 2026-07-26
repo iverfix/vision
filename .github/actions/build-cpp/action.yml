@@ -1,10 +1,28 @@
 name: Build cpp
 description: Build Cpp project
 
+inputs:
+  compiler:
+    required: true
+  build_type:
+    required: true
+
 runs:
   using: composite
   steps: 
+      - name: Configure
+        shell: bash
+        run: |
+          cmake -S . \
+            -B build/${{ inputs.build_type }} \
+            -G Ninja \
+            -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc' || 'clang' }} \
+            -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++' || 'clang++' }} \
+            -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DCMAKE_TOOLCHAIN_FILE=conan/${{ inputs.build_type }}/conan_toolchain.cmake
+
       - name: Build
         shell: bash
         run: |
-          cmake --workflow --preset ci-pipeline
+          cmake --build build/${{ inputs.build_type }}
