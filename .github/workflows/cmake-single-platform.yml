@@ -45,5 +45,11 @@ jobs:
           compiler: ${{ matrix.compiler }}
           build_type: ${{ matrix.build_type }}
 
+      - name: Static analysis
+        if: ${{ matrix.compiler == 'clang' && matrix.build_type == 'Debug' }}
+        uses: ./.github/actions/quality-check
+        with:
+          build_type: ${{ matrix.build_type }}
+
 
 
