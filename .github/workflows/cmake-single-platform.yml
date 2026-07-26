@@ -30,6 +30,8 @@ jobs:
 
       - name: Setup cpp environment
         uses: ./.github/actions/setup-cpp
+        with:
+          compiler: ${{ matrix.compiler }}
 
       - name: Check formatting
         if: ${{ matrix.compiler == 'clang' && matrix.build_type == 'Debug' }}
