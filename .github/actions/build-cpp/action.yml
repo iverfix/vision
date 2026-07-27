@@ -13,11 +13,7 @@ runs:
     - name: Enable compiler problem matcher
       shell: bash
       run: |
-        if [ "${{ inputs.compiler }}" = "gcc" ]; then
-          echo "::add-matcher::${RUNNER_TOOL_CACHE}/../_actions/_temp/gcc.json"
-        else
-          echo "::add-matcher::${RUNNER_TOOL_CACHE}/../_actions/_temp/clang.json"
-        fi
+        echo "::add-matcher::${{ github.workspace }}/.github/problem-matchers/cpp.json"
 
     - name: Configure
       shell: bash
@@ -40,8 +36,4 @@ runs:
       if: always()
       shell: bash
       run: |
-        if [ "${{ inputs.compiler }}" = "gcc" ]; then
-          echo "::remove-matcher owner=gcc::"
-        else
-          echo "::remove-matcher owner=clang::"
-        fi
+        echo "::remove-matcher owner=cpp::"
