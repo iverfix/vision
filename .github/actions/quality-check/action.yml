@@ -9,6 +9,11 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Enable compiler problem matcher
+      shell: bash
+      run: |
+        echo "::add-matcher::${{ github.workspace }}/.github/problem-matchers/cpp.json"
+
     - name: Run cppcheck
       shell: bash
       run: |
@@ -24,3 +29,9 @@ runs:
         run-clang-tidy \
           -p build/${{ inputs.build_type }}
 
+
+    - name: Remove problem matcher
+      if: always()
+      shell: bash
+      run: |
+        echo "::remove-matcher owner=cpp::"
