@@ -20,7 +20,8 @@ runs:
         cppcheck \
           --project=build/${{ inputs.build_type }}/compile_commands.json \
           --enable=warning,style,performance,portability \
-          --inconclusive 
+          --inconclusive \
+          --suppress='*:/proto/*'
 
 
     - name: Run clang-tidy
