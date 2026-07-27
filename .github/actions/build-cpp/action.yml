@@ -9,20 +9,39 @@ inputs:
 
 runs:
   using: composite
-  steps: 
-      - name: Configure
-        shell: bash
-        run: |
-          cmake -S . \
-            -B build/${{ inputs.build_type }} \
-            -G Ninja \
-            -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc' || 'clang' }} \
-            -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++' || 'clang++' }} \
-            -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            -DCMAKE_TOOLCHAIN_FILE=conan/${{ inputs.build_type }}/conan_toolchain.cmake
+  steps:
+    - name: Enable compiler problem matcher
+      shell: bash
+      run: |
+        if [ "${{ inputs.compiler }}" = "gcc" ]; then
+          echo "::add-matcher::${RUNNER_TOOL_CACHE}/../_actions/_temp/gcc.json"
+        else
+          echo "::add-matcher::${RUNNER_TOOL_CACHE}/../_actions/_temp/clang.json"
+        fi
 
-      - name: Build
-        shell: bash
-        run: |
-          cmake --build build/${{ inputs.build_type }}
+    - name: Configure
+      shell: bash
+      run: |
+        cmake -S . \
+          -B build/${{ inputs.build_type }} \
+          -G Ninja \
+          -DCMAKE_C_COMPILER=${{ inputs.compiler == 'gcc' && 'gcc' || 'clang' }} \
+          -DCMAKE_CXX_COMPILER=${{ inputs.compiler == 'gcc' && 'g++' || 'clang++' }} \
+          -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+          -DCMAKE_TOOLCHAIN_FILE=conan/${{ inputs.build_type }}/conan_toolchain.cmake
+
+    - name: Build
+      shell: bash
+      run: |
+        cmake --build build/${{ inputs.build_type }}
+
+    - name: Remove problem matcher
+      if: always()
+      shell: bash
+      run: |
+        if [ "${{ inputs.compiler }}" = "gcc" ]; then
+          echo "::remove-matcher owner=gcc::"
+        else
+          echo "::remove-matcher owner=clang::"
+        fi
