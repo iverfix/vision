@@ -24,11 +24,13 @@ runs:
           --suppress='*:/proto/*'
 
 
+
     - name: Run clang-tidy
       shell: bash
       run: |
         run-clang-tidy \
-          -p build/${{ inputs.build_type }}
+          -p build/${{ inputs.build_type }} \
+          '^(?!.*\/proto\/).*'
 
 
     - name: Remove problem matcher
