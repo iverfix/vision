@@ -16,7 +16,7 @@ runs:
           --project=build/${{ inputs.build_type }}/compile_commands.json \
           --enable=warning,style,performance,portability \
           --inconclusive \
-          --exclude=*/proto/*
+          --suppress='*:/proto/*'
 
 
     - name: Run clang-tidy
