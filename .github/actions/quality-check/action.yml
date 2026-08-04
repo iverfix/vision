@@ -9,6 +9,11 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Enable compiler problem matcher
+      shell: bash
+      run: |
+        echo "::add-matcher::${{ github.workspace }}/.github/problem-matchers/cpp.json"
+
     - name: Run cppcheck
       shell: bash
       run: |
@@ -19,9 +24,17 @@ runs:
           --suppress='*:/proto/*'
 
 
+
     - name: Run clang-tidy
       shell: bash
       run: |
         run-clang-tidy \
           -p build/${{ inputs.build_type }} \
           '^(?!.*\/proto\/).*'
+
+
+    - name: Remove problem matcher
+      if: always()
+      shell: bash
+      run: |
+        echo "::remove-matcher owner=cpp::"
